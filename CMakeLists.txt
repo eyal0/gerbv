@@ -47,5 +47,6 @@ target_compile_definitions(compilation-flags INTERFACE BINDIR="${CMAKE_INSTALL_F
 target_compile_definitions(compilation-flags INTERFACE SCMSUBDIR="${SCMSUBDIR}")
 target_compile_definitions(compilation-flags INTERFACE BACKEND_DIR="${BACKEND_DIR}")
 
+add_subdirectory(locale)
 add_subdirectory(config)
 add_subdirectory(src)
