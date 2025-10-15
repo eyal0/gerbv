@@ -1,0 +1,25 @@
+{
+    "version": 8,
+    "include": [ "base.json" ],
+    "configurePresets": [
+        {
+            "name": "linux-gnu-gcc",
+            "inherits": "base",
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "linux-gnu-gcc",
+            "configurePreset": "linux-gnu-gcc",
+            "configuration": "Debug"
+        },
+        {
+            "name": "linux-gnu-gcc-release",
+            "configurePreset": "linux-gnu-gcc",
+            "configuration": "Release"
+        }
+
+    ],
+    "testPresets": [],
+    "packagePresets": []
+}
