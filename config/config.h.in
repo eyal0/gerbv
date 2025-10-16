@@ -1,0 +1,183 @@
+/* config.h.in.  Generates config.h using config/CMakeLists.txt.  */
+
+/* Relative path from bindir to datadir */
+#define BINDIR_TO_DATADIR "@BINDIR_TO_DATADIR@"
+
+/* Relative path from bindir to exec_prefix */
+#define BINDIR_TO_EXECPREFIX "@BINDIR_TO_EXECPREFIX@"
+
+/* Relative path from bindir to pkgdatadir */
+#define BINDIR_TO_PKGDATADIR "@BINDIR_TO_PKGDATADIR@"
+
+/* Define to 1 to enable debugging code. made CMake option now */
+#ifndef DEBUG
+#define DEBUG 0
+#endif
+
+/* Define to 1 if translation of program messages to the user's native
+   language is requested. */
+/** @todo Currently, if you disable this compilation breaks, so it is not checked */
+#define ENABLE_NLS @ENABLE_NLS@
+
+/* Default border coefficient for export */
+#define GERBV_DEFAULT_BORDER_COEFF @GERBV_DEFAULT_BORDER_COEFF@
+
+/* Default unit to display in statusbar */
+#define GERBV_DEFAULT_UNIT @GERBV_DEFAULT_UNIT@
+
+/* Directory separator char */
+#cmakedefine GERBV_DIR_SEPARATOR_C @GERBV_DIR_SEPARATOR_C@
+
+/* Directory separator string */
+#cmakedefine GERBV_DIR_SEPARATOR_S "@GERBV_DIR_SEPARATOR_S@"
+
+/* Search path separator string */
+/** @todo Seems supicious, examine what it is used for */
+#define GERBV_PATH_DELIMETER ""
+
+/* Define to 1 if you have the `canonicalize_file_name' function. */
+#cmakedefine HAVE_CANONICALIZE_FILE_NAME @HAVE_CANONICALIZE_FILE_NAME@
+
+/* Define to 1 if you have the Mac OS X function CFLocaleCopyCurrent in the
+   CoreFoundation framework. */
+#undef HAVE_CFLOCALECOPYCURRENT
+
+/* Define to 1 if you have the Mac OS X function CFPreferencesCopyAppValue in
+   the CoreFoundation framework. */
+#undef HAVE_CFPREFERENCESCOPYAPPVALUE
+
+/* Define if the GNU dcgettext() function is already present or preinstalled. */
+#cmakedefine HAVE_DCGETTEXT @HAVE_DCGETTEXT@
+
+/* Define to 1 if you have the <dlfcn.h> header file. */
+#cmakedefine HAVE_DLFCN_H @HAVE_DLFCN_H@
+
+/* Define to 1 if you have the <getopt.h> header file. */
+#cmakedefine HAVE_GETOPT_H @HAVE_GETOPT_H@
+
+/* Define to 1 if you have the `getopt_long' function. */
+#cmakedefine HAVE_GETOPT_LONG @HAVE_GETOPT_LONG@
+
+/* Define if the GNU gettext() function is already present or preinstalled. */
+#cmakedefine HAVE_GETTEXT @HAVE_GETTEXT@
+
+/* Define if you have the iconv() function and it works. */
+#cmakedefine HAVE_ICONV @HAVE_ICONV@
+
+/* Define to 1 if you have the <inttypes.h> header file. */
+// #undef HAVE_INTTYPES_H
+
+/* Define to 1 if you have the `dl' library (-ldl). */
+#cmakedefine HAVE_LIBDL @HAVE_LIBDL@
+
+/* Define to 1 if you have the `dxflib' library (-ldxflib). */
+#cmakedefine HAVE_LIBDXFLIB @HAVE_LIBDXFLIB@
+
+/* Define to 1 if you have the `efence' library (-lefence). */
+#cmakedefine HAVE_LIBEFENCE @HAVE_LIBEFENCE@
+
+/* Define to 1 if you have the <libgen.h> header file. */
+#cmakedefine HAVE_LIBGEN_H @HAVE_LIBGEN_H@
+
+/* Define to 1 if you have the `m' library (-lm). */
+#cmakedefine HAVE_LIBM @HAVE_LIBM@
+
+/* Define to 1 if you have the <memory.h> header file. */
+// #undef HAVE_MEMORY_H
+
+/* Define to 1 if you have the `realpath' function. */
+#cmakedefine HAVE_REALPATH @HAVE_REALPATH@
+
+/* Define to 1 if you have the <regex.h> header file. */
+#cmakedefine HAVE_REGEX_H @HAVE_REGEX_H@
+
+/* Define to 1 if you have the <stdint.h> header file. */
+#cmakedefine HAVE_STDINT_H @HAVE_STDINT_H@
+
+/* Define to 1 if you have the <stdlib.h> header file. */
+#cmakedefine HAVE_STDLIB_H @HAVE_STDLIB_H@
+
+/* Define to 1 if you have the <strings.h> header file. */
+#cmakedefine HAVE_STRINGS_H @HAVE_STRINGS_H@
+
+/* Define to 1 if you have the <string.h> header file. */
+#cmakedefine HAVE_STRING_H @HAVE_STRING_H@
+
+/* Define to 1 if you have the `strlwr' function. */
+#cmakedefine HAVE_STRLWR @HAVE_STRLWR@
+
+/* Define to 1 if you have the <sys/mman.h> header file. */
+#cmakedefine HAVE_SYS_MMAN_H @HAVE_SYS_MMAN_H@
+
+/* Define to 1 if you have the <sys/stat.h> header file. */
+#cmakedefine HAVE_SYS_STAT_H @HAVE_SYS_STAT_H@
+
+/* Define to 1 if you have the <sys/types.h> header file. */
+#cmakedefine HAVE_SYS_TYPES_H @HAVE_SYS_TYPES_H@
+
+/* Define to 1 if you have the <time.h> header file. */
+#cmakedefine HAVE_TIME_H @HAVE_TIME_H@
+
+/* Define to 1 if you have the <unistd.h> header file. */
+#cmakedefine HAVE_UNISTD_H @HAVE_UNISTD_H@
+
+/* Define to 1 if you have the <wchar.h> header file. */
+#cmakedefine HAVE_WCHAR_H @HAVE_WCHAR_H@
+
+/* Define to the sub-directory where libtool stores uninstalled libraries. */
+//#undef LT_OBJDIR
+
+/* Define if canonicalize_file_name is not declared in system header files. */
+#undef NEED_DECLARATION_CANONICALIZE_FILE_NAME
+
+/* Name of package */
+#define PACKAGE "@PACKAGE@"
+
+/* Define to the address where bug reports for this package should be sent. */
+#define PACKAGE_BUGREPORT "@PACKAGE_BUGREPORT@"
+
+/* Define to the full name of this package. */
+#define PACKAGE_NAME "@PACKAGE_NAME@"
+
+/* Define to the full name and version of this package. */
+#define PACKAGE_STRING "@PACKAGE_STRING@"
+
+/* Define to the one symbol short name of this package. */
+#define PACKAGE_TARNAME "@PACKAGE_TARNAME@"
+
+/* Define to the home page for this package. */
+#define PACKAGE_URL "@PACKAGE_URL@"
+
+/* Define to the version of this package. */
+#define PACKAGE_VERSION "@VERSION@"
+
+/* Scheme interpreter not used standalone */
+#cmakedefine01 STANDALONE
+
+/* Define to 1 if you have the ANSI C header files. */
+#undef STDC_HEADERS
+
+/* DL Sun method */
+#cmakedefine01 SUN_DL
+
+/* ASCII names in Scheme interpreter */
+#cmakedefine01 USE_ASCII_NAMES
+
+/* Colon Hooks in Scheme interpreter */
+#cmakedefine01 USE_COLON_HOOKS
+
+/* Dynamic linking in Scheme interpreter */
+#cmakedefine01 USE_DL
+
+/* Use extension interface of Scheme interpreter */
+#cmakedefine01 USE_INTERFACE
+
+/* Math in Scheme interpreter */
+#cmakedefine01 USE_MATH
+
+/* String Hooks in Scheme interpreter */
+#cmakedefine01 USE_STRING_HOOKS
+
+
+/* Version number of package */
+#cmakedefine VERSION "@VERSION@"

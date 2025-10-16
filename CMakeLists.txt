@@ -15,8 +15,6 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 set(CMAKE_EXPORT_COMPILE_COMMANDS "ON")
 
-option(DEBUG_PRINTOUT "Print out debug messages as gerbv process files" FALSE)
-
 ## Glib-2.0 and GTK-2.0
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtk+-2.0)
@@ -46,6 +44,9 @@ target_compile_definitions(compilation-flags INTERFACE LOCALEDIR="${LOCALEDIR}")
 target_compile_definitions(compilation-flags INTERFACE BINDIR="${CMAKE_INSTALL_FULL_BINDIR}")
 target_compile_definitions(compilation-flags INTERFACE SCMSUBDIR="${SCMSUBDIR}")
 target_compile_definitions(compilation-flags INTERFACE BACKEND_DIR="${BACKEND_DIR}")
+
+include(GetGitVersion)
+get_git_version(VERSION)
 
 add_subdirectory(locale)
 add_subdirectory(config)
