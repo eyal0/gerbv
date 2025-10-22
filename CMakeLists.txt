@@ -51,3 +51,8 @@ get_git_version(VERSION)
 add_subdirectory(locale)
 add_subdirectory(config)
 add_subdirectory(src)
+add_subdirectory(man)
+add_subdirectory(desktop)
+
+install(DIRECTORY example TYPE DOC) # Rename to examples
+install(DIRECTORY share/ TYPE DATA)
