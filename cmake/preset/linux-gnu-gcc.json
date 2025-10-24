@@ -5,6 +5,7 @@
         {
             "name": "linux-gnu-gcc",
             "inherits": "base",
+            "toolchainFile": "cmake/toolchains/linux-gnu-gcc.cmake"
         }
     ],
     "buildPresets": [
