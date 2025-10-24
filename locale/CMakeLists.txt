@@ -6,8 +6,8 @@ set(GETTEXT_LANGUAGES "ja" "ru")
 
 set(GETTEXT_SOURCES
      "../src/attribute.c"
-     ../src/authors.c
-     ../src/bugs.c
+     ${CMAKE_BINARY_DIR}/config/authors.c
+     ${CMAKE_BINARY_DIR}/config/bugs.c
      ../src/callbacks.c
      ../src/csv.c
      ../src/draw-gdk.c

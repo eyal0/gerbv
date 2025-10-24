@@ -71,6 +71,6 @@ target_sources(gerbv PRIVATE
 target_include_directories(gerbv PRIVATE .)
 #target_compile_definitions(gerbv PUBLIC GDK_DISABLE_DEPRECATED GTK_DISABLE_DEPRECATED) # Removes all deprecated functions
 target_compile_definitions(gerbv PRIVATE $<$<BOOL:${DEBUG_PRINTOUT}>:DEBUG=1>)
-target_link_libraries(gerbv PRIVATE compilation-flags config)
+target_link_libraries(gerbv PRIVATE compilation-flags config generated)
 
 # gettext https://erri120.github.io/posts/2022-05-05/

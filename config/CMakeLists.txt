@@ -76,3 +76,21 @@ option(USE_STRING_HOOKS "String Hooks in Scheme interpreter" ON)
 option(USE_INTERFACE "Use extension interface of Scheme interpreter" ON)
 
 configure_file(config.h.in config.h @ONLY)
+
+set(GENERATOR_SCRIPT_DIR ${CMAKE_SOURCE_DIR}/cmake/generate)
+add_custom_command(
+    OUTPUT bugs.c authors.c
+    COMMAND ${CMAKE_COMMAND}
+            -DINPUT_BUGS=${CMAKE_SOURCE_DIR}/BUGS
+            -DOUTPUT_BUGS=${CMAKE_CURRENT_BINARY_DIR}/bugs.c
+            -DINPUT_AUTHORS=${CMAKE_SOURCE_DIR}/AUTHORS
+            -DOUTPUT_AUTHORS=${CMAKE_CURRENT_BINARY_DIR}/authors.c
+             -P ${GENERATOR_SCRIPT_DIR}/generate_headers.cmake
+    DEPENDS ${CMAKE_SOURCE_DIR}/BUGS ${CMAKE_SOURCE_DIR}/AUTHORS
+    VERBATIM)
+
+add_library(generated INTERFACE)
+target_sources(generated PRIVATE bugs.c authors.c)
+target_include_directories(generated INTERFACE)
+set_target_properties(generated PROPERTIES
+                        ADDITIONAL_CLEAN_FILES "bugs.c;authors.c")
