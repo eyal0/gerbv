@@ -193,7 +193,7 @@ static void
 ghid_spin_button (GtkWidget * box, GtkWidget ** spin_button, gfloat value,
 		  gfloat low, gfloat high, gfloat step0, gfloat step1,
 		  gint digits, gint width,
-		  void (*cb_func) (), gpointer data, gboolean right_align,
+		  void (*cb_func) (GtkWidget*, void *), gpointer data, gboolean right_align,
 		  gchar * string)
 {
   GtkWidget *hbox = NULL, *label, *spin_but;
@@ -248,7 +248,7 @@ ghid_check_button_connected (GtkWidget * box,
 			     gboolean expand,
 			     gboolean fill,
 			     gint pad,
-			     void (*cb_func) (),
+			     void (*cb_func) (GtkToggleButton*, gboolean*),
 			     gpointer data, gchar * string)
 {
   GtkWidget *b;

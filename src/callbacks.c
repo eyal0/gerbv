@@ -1066,7 +1066,7 @@ callbacks_toggle_layer_visibility_activate (GtkMenuItem *menuitem, gpointer user
 	if (screenRenderInfo.renderType <= GERBV_RENDER_TYPE_GDK_XOR) {
 		render_refresh_rendered_image_on_screen ();
 	} else {
-		render_recreate_composite_surface (screen.drawing_area);
+		render_recreate_composite_surface ();
 		callbacks_force_expose_event_for_screen ();
 	}
 }
@@ -2185,7 +2185,7 @@ callbacks_layer_tree_visibility_toggled (gint index)
 	if (screenRenderInfo.renderType <= GERBV_RENDER_TYPE_GDK_XOR) {
 		render_refresh_rendered_image_on_screen ();
 	} else {
-		render_recreate_composite_surface (screen.drawing_area);
+		render_recreate_composite_surface ();
 		callbacks_force_expose_event_for_screen ();
 	}
 }
@@ -2437,7 +2437,7 @@ callbacks_remove_layer_button_clicked (GtkButton *button, gpointer user_data)
 		if (screenRenderInfo.renderType <= GERBV_RENDER_TYPE_GDK_XOR) {
 			render_refresh_rendered_image_on_screen ();
 		} else {
-			render_recreate_composite_surface (screen.drawing_area);
+			render_recreate_composite_surface ();
 			callbacks_force_expose_event_for_screen ();
 		}
 	}
@@ -2468,7 +2468,7 @@ callbacks_move_layer_down_button_clicked  (GtkButton *button, gpointer   user_da
 			render_refresh_rendered_image_on_screen ();
 		}
 		else {
-			render_recreate_composite_surface (screen.drawing_area);
+			render_recreate_composite_surface ();
 			callbacks_force_expose_event_for_screen ();
 		}
 	}
@@ -2497,7 +2497,7 @@ callbacks_move_layer_up_button_clicked  (GtkButton *button, gpointer   user_data
 			render_refresh_rendered_image_on_screen();
 		}
 		else {
-			render_recreate_composite_surface (screen.drawing_area);
+			render_recreate_composite_surface ();
 			callbacks_force_expose_event_for_screen ();
 		}
 	}
@@ -2525,7 +2525,7 @@ void callbacks_layer_tree_row_inserted (GtkTreeModel *tree_model, GtkTreePath  *
 				render_refresh_rendered_image_on_screen();
 			}
 			else {
-				render_recreate_composite_surface (screen.drawing_area);
+				render_recreate_composite_surface ();
 				callbacks_force_expose_event_for_screen ();
 			}
 			/* select the new line */
