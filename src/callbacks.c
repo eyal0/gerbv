@@ -1981,7 +1981,7 @@ callbacks_bugs_activate (GtkMenuItem     *menuitem,
     
     /* Create GtkLabel to hold text */
     GtkWidget *bugs_label = gtk_label_new (bugs_string->str);
-    g_string_free(bugs_string, FALSE);
+    g_string_free(bugs_string, TRUE);
     gtk_misc_set_alignment(GTK_MISC(bugs_label), 0, 0);
     gtk_misc_set_padding(GTK_MISC(bugs_label), 7, 7);
     
