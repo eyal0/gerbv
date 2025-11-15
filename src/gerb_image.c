@@ -1140,7 +1140,7 @@ gerbv_image_create_arc_object (gerbv_image_t *image, gdouble centerX, gdouble ce
 	*(currentNet->cirseg) = cirSeg;
 	
 	gdouble angleDiff = currentNet->cirseg->angle2 - currentNet->cirseg->angle1;
-	gint i, steps = abs(angleDiff);
+	gint i, steps = fabs(angleDiff);
 	for (i=0; i<=steps; i++){
 		gdouble tempX = currentNet->cirseg->cp_x + currentNet->cirseg->width / 2.0 *
 				cos (DEG2RAD(currentNet->cirseg->angle1 +
