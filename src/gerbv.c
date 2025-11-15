@@ -94,6 +94,21 @@ const char *gerbv_aperture_type_name(gerbv_aperture_type_t type)
 	return N_("<undefined>");
 }
 
+const char *gerbv_aperture_state_name(gerbv_aperture_state_t state)
+{
+	const char* names[] = {
+		N_("off"),   /**< Off state */
+		N_("on"),    /**< On state */
+		N_("flash"), /**< Flash state */
+	};
+
+	if (state >= 0 && state < sizeof(names) / sizeof(names[0])) {
+		return names[state];
+	}
+
+	return N_("<undefined>");
+}
+
 /** Return string name of gerbv_interpolation_t interpolation. */
 const char *gerbv_interpolation_name(gerbv_interpolation_t interp)
 {

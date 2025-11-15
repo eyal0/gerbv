@@ -169,6 +169,8 @@ typedef enum {GERBV_APERTURE_STATE_OFF, /*!< tool drawing is off, and nothing wi
 		GERBV_APERTURE_STATE_FLASH /*!< tool is flashing, and will draw a single aperture */
 } gerbv_aperture_state_t;
 
+const char *gerbv_aperture_state_name(gerbv_aperture_state_t state);
+
 /*! The circle aperture macro parameter indexes */
 typedef enum {
 		CIRCLE_EXPOSURE,

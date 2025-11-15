@@ -1456,7 +1456,7 @@ draw_image_to_cairo_target (cairo_t *cairoTarget, gerbv_image_t *image,
 				default:
 					GERB_COMPILE_WARNING(
 						_("Unknown aperture state: %s"),
-						_(gerbv_aperture_type_name(
+						_(gerbv_aperture_state_name(
 							net->aperture_state)));
 
 					return 0;
