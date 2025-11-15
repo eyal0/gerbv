@@ -59,6 +59,13 @@ src/*.gcno
 src/*.gcda
 gerbv-lcov.info
 
+# Visual Studio Code
+.vscode/
+
+# CMake
+build/
+CMakeUserPresets.json
+
 stamp-h1
 test-driver
 test/mismatch/
