@@ -2312,7 +2312,7 @@ focus_in_event_callback (int *widget_num)
 
 void
 interface_show_layer_edit_dialog (gerbv_user_transformation_t *transforms[],
-		gerbv_unit_t screenUnit) {
+		gerbv_gui_unit_t screenUnit) {
 	GtkWidget *dialog;
 	GtkWidget *check1,*check2,*check3,*tempWidget,*tempWidget2,*tableWidget;
 	GtkWidget *spin1,*spin2,*spin3,*spin4,*spin5;
@@ -2355,14 +2355,14 @@ gerbv_user_transformation_t startTransform = trans;
 	tempWidget = gtk_label_new ("");
 	gtk_table_attach ((GtkTable *) tableWidget, tempWidget,0,1,1,2,GTK_EXPAND|GTK_FILL,0,0,0);
 	gdouble translateX, translateY;
-	
-	if (screenUnit == (gerbv_unit_t) GERBV_MILS) {
+
+	if (screenUnit == GERBV_MILS) {
 		tempWidget = gtk_label_new (_("X (mils):"));
 		tempWidget2 = gtk_label_new (_("Y (mils):"));
 		translateX = trans->translateX * 1000;
 		translateY = trans->translateY * 1000;
 	}
-	else if (screen.unit == (gerbv_gui_unit_t) GERBV_MMS) {
+	else if (screen.unit == GERBV_MMS) {
 		tempWidget = gtk_label_new (_("X (mm):"));
 		tempWidget2 = gtk_label_new (_("Y (mm):"));
 		translateX = trans->translateX * 25.4;
@@ -2498,12 +2498,12 @@ gerbv_user_transformation_t startTransform = trans;
 		result = gtk_dialog_run (GTK_DIALOG(dialog));
 		if (result != GTK_RESPONSE_CLOSE) {
 			/* Extract all the parameters */
-			if (screenUnit == (gerbv_unit_t) GERBV_MILS) {
+			if (screenUnit == GERBV_MILS) {
 				trans->translateX = gtk_spin_button_get_value ((GtkSpinButton *) spin1)/
 					1000;
 				trans->translateY = gtk_spin_button_get_value ((GtkSpinButton *) spin2)/
 					1000;
-			} else if (screen.unit == (gerbv_gui_unit_t) GERBV_MMS) {
+			} else if (screen.unit == GERBV_MMS) {
 				trans->translateX = gtk_spin_button_get_value ((GtkSpinButton *) spin1)/
 					25.4;
 				trans->translateY = gtk_spin_button_get_value ((GtkSpinButton *) spin2)/
