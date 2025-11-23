@@ -31,6 +31,9 @@ target_sources(gerbv PRIVATE
                 pick-and-place.c pick-and-place.h
                 selection.c selection.h
                 tooltable.c)
+if(DXF_FOUND)
+    target_sources(gerbv PRIVATE export-dxf.cpp)
+endif()
 target_link_libraries(gerbv PRIVATE compilation-flags config)
 
 install(TARGETS gerbv

@@ -20,6 +20,9 @@ find_package(PkgConfig REQUIRED)
 pkg_check_modules(GTK REQUIRED IMPORTED_TARGET gtk+-2.0)
 pkg_check_modules(GLIB REQUIRED IMPORTED_TARGET glib-2.0)
 
+## DXF support library
+pkg_check_modules(DXF IMPORTED_TARGET dxflib)
+
 ## Gettext and intl
 find_package(Gettext REQUIRED) # https://cmake.org/cmake/help/latest/module/FindGettext.html
 find_package(Intl REQUIRED)
@@ -35,6 +38,9 @@ add_library(compilation-flags INTERFACE)
 target_compile_options(compilation-flags INTERFACE -Wall -O3 -Wno-deprecated-declarations)
 target_compile_options(compilation-flags INTERFACE $<$<CONFIG:Debug>:-g3>)
 target_link_libraries(compilation-flags INTERFACE PkgConfig::GLIB PkgConfig::GTK Intl::Intl m)
+if(DXF_FOUND)
+    target_link_libraries(compilation-flags INTERFACE PkgConfig::DXF)
+endif()
 ## This is installation directory settings. These must be solved later by install target
 target_compile_definitions(compilation-flags INTERFACE DATADIR="${DATADIR}")
 target_compile_definitions(compilation-flags INTERFACE LOCALEDIR="${LOCALEDIR}")

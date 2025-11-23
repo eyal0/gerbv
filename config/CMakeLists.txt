@@ -35,8 +35,9 @@ check_function_exists(iconv HAVE_ICONV)
 include(CheckLibraryExists)
 check_library_exists(m pow "" HAVE_LIBM)
 check_library_exists(dl dlopen "" HAVE_LIBDL)
-check_library_exists(dxflib main "" HAVE_LIBDXFLIB)
 check_library_exists(efence main "" HAVE_LIBEFENCE)
+
+set(HAVE_LIBDXFLIB ${DXF_FOUND})
 
 set(PACKAGE_VERSION ${VERSION})
 set(PACKAGE ${PROJECT_NAME})
