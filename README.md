@@ -1,4 +1,4 @@
-# Gerbv – a Gerber file viewer ![Build Status](https://github.com/gerbv/gerbv/actions/workflows/ci.yaml/badge.svg)[![Coverage Status](https://coveralls.io/repos/github/gerbv/gerbv/badge.svg?branch=main)](https://coveralls.io/github/gerbv/gerbv?branch=main)
+# Gerbv – a Gerber file viewer ![Build Status](https://github.com/gerbv/gerbv/actions/workflows/ci.yaml/badge.svg)[![Coverage Status](https://coveralls.io/repos/github/gerbv/gerbv/badge.svg?branch=develop)](https://coveralls.io/github/gerbv/gerbv?branch=develop)
 
 Gerbv was originally developed as part of the
 [gEDA Project](https://www.geda-project.org/) but is now separately maintained.
@@ -31,21 +31,100 @@ Be aware however that they are not manually verified!
 
 ## About this fork
 
-While Gerbv is great software, the development on Source Force has stalled since
-many years with patches accumulating in the tracker and mailing list.
+This is basically a fork of the fork. There have been many chefs trying to fix this soup,
+but they have never gotten to the bottom of the problems. I (the original creator and
+maintainer of the gerbv project) have taken over this branch. I gave up the role of
+maintainer many years ago due to me becoming a consultant with my own business and
+didn't feel I had time for this.
 
-This fork aims at providing a maintained Gerbv source, containing mostly
-bugfixes.
+Since then a lot of things in the software world have revolutionized they way software is
+developed. Form as simple things as Git and github, up to todays AI coding tools. The compilers
+have become much better at finding problems and errors (you have to enable flags) and also
+open source tools for static analysis is avaialable.
 
-To communicate with the original Gerbv developers, please post your query on the
-following mailing list:
+I have plans on what to do. Some plans may upset people. If this upsets you I welcome you
+to create your own fork, I see no problems with that.
 
-    gerbv-devel@lists.sourceforge.net
-    geda-user@delorie.com
+I have started the `develop` branch to back out of some completely and utterly useless code
+formatting changes. There are more serious problems than reformatting the code to some style
+that is not used anywhere in the code. I admit the code style is broken, but it is really
+not the first on the agenda to fix. The original `main` branch will stay as it is for the time
+being.
 
-This is a friendly fork and I'm willing to invite other people to join the Gerbv
-GitHub organization.
+## My plan for this set of updates
 
+This is a list of things I hope to be able to fix
+
+- [ ] [CMake](#cmake)
+- [ ] [Fixing first set of trivial bugs](#fixing-first-set-of-trivial-bugs)
+- [ ] [More updated Gerber specifications](#more-updated-gerber-specifications)
+- [ ] [Port over to GTK-3.0](#port-over-to-gtk-30)
+- [ ] [Fixing misunderstandings of the original specification](#fixing-misunderstandings-of-the-original-specification)
+- [ ] [General documentation](#general-documentation)
+- [ ] [Code reformatting](#code-reformatting)
+
+### CMake
+
+First order of business is to use CMake, which is a more modern tool to create builds compared to
+autotools. Autotools were born in an era of diversified releases of different Unix systems.
+Now it is basically Linux everywhere. I have never liked autotools with its obscure syntax anyhow.
+
+Hopefully it can simplify things like MacOS, Windows and packaging. Since we are using GTK, it
+will probably never be trivial I guess.
+
+CMake Presets are a thing. Also some sourcecode directory structure can and will be updated at a later
+stage.
+
+### Fixing first set of trivial bugs
+
+When I was porting the code to CMake I found a bunch of trivial but serious errors. So I fixed
+them.
+
+### More updated Gerber specifications
+
+When I started this project the "specification" at the time was around 60 pages. Now it is
+over 200 pages and most things are more clearly defined. And there are updates with new things
+as well. Hopefully at least try to parse without warnings on missing syntax.
+
+There is (at least was) a lot of broken Gerber files out there. Just look in the examples directory.
+The question is if it still is so, and if we should support every little quirk, and error or omission.
+
+### Port over to GTK-3.0
+
+GTK-2.0 is obsoleted since some year(s) back. Already GTK-2.0 have developed since gerbv went there
+and obsoleted a couple of things that are still used in gerbv. That makes it even harder to
+update to GTK-3.0.
+
+It is not trivial, a lot of things have changed. There is an excellent patch waiting from @LemonBoy
+which I have high hopes for. And with a little help from Claude I hope we can pull this together.
+
+The biggest change for gerbv is probably that GDK is removed. That was our fastest drawing frontend.
+But with faster computers and graphics it hopefully works out OK. If anyone feels adventurous,
+a frontend using OpenGL is always welcome.
+
+### Fixing misunderstandings of the original specification
+
+I am not a graphics guy, I always liked the parsing part more. So from the tiny "standards" paper
+to the fullblown standards paper of today there are bunch of things that has been missunderstood
+or not even implemented.
+
+### General documentation
+
+There are today lots of tools to document your code. One great thing I have discovered by switching
+to a more modern IDE is to document the API of all functions using Doxygen.
+
+This is more of a continous task. For every file touched some documentation can be updated.
+
+### Code reformatting
+
+Of course a code reformatting will be done. This will be a stepwise update, one file at a time.
+One of the problems with a complete reformatting is the loss of history. You need the history when
+coming into a project first time to try to understand why something is like it is.
+
+This goes slightly hand in hand with the [General documentation](#general-documentation) updates.
+Step-wise and when the file is updated for some other reason.
+
+### Many other fixes
 
 ## Applied patches from SourceForge
 
