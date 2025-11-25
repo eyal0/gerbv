@@ -1,0 +1,26 @@
+{
+    "version": 8,
+    "include": [ "base.json" ],
+    "configurePresets": [
+        {
+            "name": "mingw-w64-gcc",
+            "inherits": "base",
+            "toolchainFile": "cmake/toolchains/mingw-w64-gcc.cmake"
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "mingw-w64-gcc",
+            "configurePreset": "mingw-w64-gcc",
+            "configuration": "Debug"
+        },
+        {
+            "name": "mingw-w64-gcc-release",
+            "configurePreset": "mingw-w64-gcc",
+            "configuration": "Release"
+        }
+
+    ],
+    "testPresets": [],
+    "packagePresets": []
+}
