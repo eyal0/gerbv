@@ -485,7 +485,7 @@ main(int argc, char *argv[])
 #endif
     gchar *env_val;
 
-#if ENABLE_NLS
+#ifdef ENABLE_NLS
     setlocale(LC_ALL, "");
     bindtextdomain(PACKAGE, LOCALEDIR);
 # ifdef WIN32
