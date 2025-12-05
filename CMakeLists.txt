@@ -45,11 +45,11 @@ if(Intl_FOUND)
 endif()
 
 ## This is installation directory settings. These must be solved later by install target
-target_compile_definitions(compilation-flags INTERFACE DATADIR="${DATADIR}")
-target_compile_definitions(compilation-flags INTERFACE LOCALEDIR="${LOCALEDIR}")
-target_compile_definitions(compilation-flags INTERFACE BINDIR="${CMAKE_INSTALL_FULL_BINDIR}")
-target_compile_definitions(compilation-flags INTERFACE SCMSUBDIR="${SCMSUBDIR}")
-target_compile_definitions(compilation-flags INTERFACE BACKEND_DIR="${BACKEND_DIR}")
+target_compile_definitions(compilation-flags INTERFACE "GERBV_DATADIR=\"${DATADIR}\"")
+target_compile_definitions(compilation-flags INTERFACE "GERBV_LOCALEDIR=\"${LOCALEDIR}\"")
+target_compile_definitions(compilation-flags INTERFACE "GERBV_BINDIR=\"${CMAKE_INSTALL_FULL_BINDIR}\"")
+target_compile_definitions(compilation-flags INTERFACE "GERBV_SCMSUBDIR=\"${SCMSUBDIR}\"")
+target_compile_definitions(compilation-flags INTERFACE "GERBV_BACKEND_DIR=\"${BACKEND_DIR}\"")
 
 include(GetGitVersion)
 get_git_version(VERSION)

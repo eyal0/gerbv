@@ -487,7 +487,7 @@ main(int argc, char *argv[])
 
 #ifdef ENABLE_NLS
     setlocale(LC_ALL, "");
-    bindtextdomain(PACKAGE, LOCALEDIR);
+    bindtextdomain(PACKAGE, GERBV_LOCALEDIR);
 # ifdef WIN32
     bind_textdomain_codeset(PACKAGE, "UTF-8");
 # endif
