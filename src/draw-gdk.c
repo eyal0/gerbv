@@ -777,7 +777,7 @@ draw_gdk_render_polygon_object (gerbv_net_t *oldNet, gerbv_image_t *image, doubl
 				/* we need to chop up the arc into small lines for rendering
 				with GDK */
 				angleDiff = currentNet->cirseg->angle2 - currentNet->cirseg->angle1;
-				steps = (int) abs(angleDiff);
+				steps = (int) fabs(angleDiff);
 				if (pointArraySize < (curr_point_idx + steps)) {
 					pointArraySize = curr_point_idx + steps;
 					points = (GdkPoint *)g_realloc(points,

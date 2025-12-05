@@ -33,7 +33,9 @@ components will be simplified.  The returned value will be allocated using
 
 */
 
+#ifdef HAVE_CONFIG_H
 #include "config.h"
+#endif
 #include "lrealpath.h"
 
 #ifdef HAVE_LIMITS_H

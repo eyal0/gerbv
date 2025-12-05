@@ -3930,7 +3930,7 @@ static const char *procname(pointer x) {
 
 /* kernel of this interpreter */
 static void Eval_Cycle(scheme *sc, enum scheme_opcodes op) {
-  int count=0;
+  /* int count=0; */
   /*int old_op;*/
   
   sc->op = op;
@@ -4005,7 +4005,7 @@ static void Eval_Cycle(scheme *sc, enum scheme_opcodes op) {
       fprintf(stderr,"No memory!\n");
       return;
     }
-    count++;
+    /* count++; */
   }
 }
 

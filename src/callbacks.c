@@ -3761,8 +3761,9 @@ callbacks_drawingarea_button_release_event (GtkWidget *widget, GdkEventButton *e
 		}
 		/* if the user just clicks without dragging, then simply
 		   zoom in a preset amount */
-		else if ((abs(screen.start_x - event->x) < 4) &&
-				(abs(screen.start_y - event->y) < 4)) {
+		/// @todo This became double in the transition. Should it really?
+		else if ((fabs(screen.start_x - event->x) < 4.0) &&
+				(fabs(screen.start_y - event->y) < 4.0)) {
 			render_zoom_display (ZOOM_IN_CMOUSE, 0,
 					event->x, event->y);
 		} else {

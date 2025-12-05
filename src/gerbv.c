@@ -94,6 +94,21 @@ const char *gerbv_aperture_type_name(gerbv_aperture_type_t type)
 	return N_("<undefined>");
 }
 
+const char *gerbv_aperture_state_name(gerbv_aperture_state_t state)
+{
+	const char* names[] = {
+		N_("off"),   /**< Off state */
+		N_("on"),    /**< On state */
+		N_("flash"), /**< Flash state */
+	};
+
+	if (state >= 0 && state < sizeof(names) / sizeof(names[0])) {
+		return names[state];
+	}
+
+	return N_("<undefined>");
+}
+
 /** Return string name of gerbv_interpolation_t interpolation. */
 const char *gerbv_interpolation_name(gerbv_interpolation_t interp)
 {
@@ -537,13 +552,17 @@ gerbv_open_image(gerbv_project_t *gerbvProject, gchar const* filename, int idx, 
 			switch (gerbvProject->file[idx]->image->layertype) {
 			case GERBV_LAYERTYPE_PICKANDPLACE_TOP:
 				/* Non NULL pointer is used as "not to reload" mark */
-				parsed_image2 = (void *)!NULL;
+				// parsed_image2 = (void *)!NULL;
+				/// @todo Rip out this whole really really really bad code
+				parsed_image2 = (void *)1;
 				pick_and_place_parse_file_to_images(fd, &parsed_image, &parsed_image2);
 				parsed_image2 = NULL;
 				break;
 			case GERBV_LAYERTYPE_PICKANDPLACE_BOT:
 				/* Non NULL pointer is used as "not to reload" mark */
-				parsed_image2 = (void *)!NULL;
+				// parsed_image2 = (void *)!NULL;
+				/// @todo Rip out this whole really really really bad code
+				parsed_image2 = (void *)1;
 				pick_and_place_parse_file_to_images(fd, &parsed_image2, &parsed_image);
 				parsed_image2 = NULL;
 				break;

@@ -176,10 +176,11 @@ void
 export_rs274x_write_layer_change (gerbv_layer_t *oldLayer, gerbv_layer_t *newLayer, FILE *fd) {
 	if (oldLayer->polarity != newLayer->polarity) {
 		/* polarity changed */
-		if ((newLayer->polarity == GERBV_POLARITY_CLEAR))
+		if (newLayer->polarity == GERBV_POLARITY_CLEAR) {
 			fprintf(fd, "%%LPC*%%\n");
-		else
+		} else {
 			fprintf(fd, "%%LPD*%%\n");
+		}
 	}
 }
 
