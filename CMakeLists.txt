@@ -25,8 +25,7 @@ pkg_check_modules(DXF IMPORTED_TARGET dxflib)
 
 ## Gettext and intl
 find_package(Gettext REQUIRED) # https://cmake.org/cmake/help/latest/module/FindGettext.html
-find_package(Intl REQUIRED)
-#pkg_check_modules(GetText REQUIRED IMPORTED_TARGET gettext)
+find_package(Intl) # Removed REQUIRED since it will fail on Mingw where it seems to be part of Gettext
 
 include(GNUInstallDirs)
 set(DATADIR "${CMAKE_INSTALL_FULL_DATADIR}/${CMAKE_PROJECT_NAME}")
@@ -37,10 +36,14 @@ set(BACKEND_DIR "${DATADIR}/${SCMSUBDIR}")
 add_library(compilation-flags INTERFACE)
 target_compile_options(compilation-flags INTERFACE -Wall -O3 -Wno-deprecated-declarations)
 target_compile_options(compilation-flags INTERFACE $<$<CONFIG:Debug>:-g3>)
-target_link_libraries(compilation-flags INTERFACE PkgConfig::GLIB PkgConfig::GTK Intl::Intl m)
+target_link_libraries(compilation-flags INTERFACE PkgConfig::GLIB PkgConfig::GTK m)
 if(DXF_FOUND)
     target_link_libraries(compilation-flags INTERFACE PkgConfig::DXF)
 endif()
+if(Intl_FOUND)
+    target_link_libraries(compilation-flags INTERFACE Intl::Intl)
+endif()
+
 ## This is installation directory settings. These must be solved later by install target
 target_compile_definitions(compilation-flags INTERFACE DATADIR="${DATADIR}")
 target_compile_definitions(compilation-flags INTERFACE LOCALEDIR="${LOCALEDIR}")
