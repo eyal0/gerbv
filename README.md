@@ -56,7 +56,13 @@ being.
 This is a list of things I hope to be able to fix
 
 - [ ] [CMake](#cmake)
-- [ ] [Fixing first set of trivial bugs](#fixing-first-set-of-trivial-bugs)
+  - [X] Fix Linux/general CMake target
+  - [ ] Fix Windows CMake by cross compilation to Mingw64
+  - [ ] Remove files that are not used anymore or just ancient
+  - [ ] Make Github pipeline compile the new targets
+  - [ ] Fix outstanding tests/targets that are in use on the Github pipeline
+- [X] [Fixing first set of trivial bugs](#fixing-first-set-of-trivial-bugs)
+- [ ] NSIS wrapper for Windows builds
 - [ ] [More updated Gerber specifications](#more-updated-gerber-specifications)
 - [ ] [Port over to GTK-3.0](#port-over-to-gtk-30)
 - [ ] [Fixing misunderstandings of the original specification](#fixing-misunderstandings-of-the-original-specification)
@@ -67,7 +73,7 @@ This is a list of things I hope to be able to fix
 
 First order of business is to use CMake, which is a more modern tool to create builds compared to
 autotools. Autotools were born in an era of diversified releases of different Unix systems.
-Now it is basically Linux everywhere. I have never liked autotools with its obscure syntax anyhow.
+Now it is basically Linux everywhere. I have anyhow never liked autotools with its obscure syntax.
 
 Hopefully it can simplify things like MacOS, Windows and packaging. Since we are using GTK, it
 will probably never be trivial I guess.
@@ -125,6 +131,48 @@ This goes slightly hand in hand with the [General documentation](#general-docume
 Step-wise and when the file is updated for some other reason.
 
 ### Many other fixes
+
+As the project goes on in rewriting, more and more trivial and not-so-trivial bugs are surfaced.
+Those will be fixed asap when they are discovered. There can be platforms developers don't have
+access to, that might delay things. But the urgency will be based on severity.
+* Compilation error/warnings. Code should always compile.
+* Crashes. Segafults and similar memory crashes. They can be hard to recreate though.
+* Other annoyances.
+
+## Building (after CMake transition)
+
+### For general Linux distributions
+
+You need:
+* gcc
+* gtk+-2.0 (use dev package)
+* glib-2.0 (use dev package)
+* cmake (>=3.28)
+* ninja
+
+To configure the build process, run
+```
+cmake --preset linux-gnu-gcc
+```
+That will create a directory called `build` with all configuration.
+
+To compile you can choose `debug` build (default) or `release` build and then run
+```
+cmake --build --preset linux-gnu-gcc
+```
+or
+```
+cmake --build --preset linux-gnu-gcc-release
+```
+
+There is already an installation process available. You can test it out until I get the
+energy to write it down properly. It is quite easy if you want to install it under `/usr/local`.
+Basically you run
+```
+cmake --install build
+```
+
+If you want to install it somewhere else, then YMMV.
 
 ## Applied patches from SourceForge
 

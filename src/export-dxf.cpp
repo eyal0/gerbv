@@ -85,7 +85,6 @@ gerbv_export_dxf_file_from_image(const gchar *file_name,
 	gerbv_aperture_t *apert;
 	gerbv_image_t *img;
 	gerbv_net_t *net;
-	GArray *apert_tab;
 	double x[4], y[4], r, dx, dy, nom;
 	unsigned int i;
 

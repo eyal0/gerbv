@@ -9,8 +9,6 @@ aclocal.m4
 autom4te.cache/
 compile
 config.guess
-config.h
-config.h.in
 config.log
 config.rpath
 config.status
@@ -58,6 +56,13 @@ src/run_gerbv
 src/*.gcno
 src/*.gcda
 gerbv-lcov.info
+
+# Visual Studio Code
+.vscode/
+
+# CMake
+build/
+CMakeUserPresets.json
 
 stamp-h1
 test-driver

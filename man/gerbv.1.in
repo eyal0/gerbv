@@ -1,4 +1,4 @@
-.TH gerbv 1 "Jule 13, 2013" Version @version@
+.TH gerbv 1 "Jule 13, 2013" Version @VERSION@
 .SH NAME
 gerbv - Gerber Viewer
 .SH SYNOPSIS
@@ -202,7 +202,7 @@ The project files are simple Scheme programs that is interpreted by a
 built in Scheme interpreter. The Scheme interpreter is TinyScheme and
 needs a Scheme program called init.scm to initialize itself. The search
 path for init.scm is (in the following order) 
-@scmdir@, the directory with the executable
+@BACKEND_DIR@, the directory with the executable
 gerbv, the directory gerbv was invoked from and finally
 according to the environment variable GERBV_SCHEMEINIT.
 

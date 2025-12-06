@@ -1,0 +1,5 @@
+# Generated files from gettext et al
+*.pot
+*.gmo
+locale
+locales
