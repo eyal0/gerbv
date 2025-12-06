@@ -110,22 +110,22 @@ typedef struct drill_state {
 
 /* Local function prototypes */
 static drill_g_code_t drill_parse_G_code(gerb_file_t *fd,
-				gerbv_image_t *image, ssize_t file_line);
+				gerbv_image_t *image, unsigned int file_line);
 static drill_m_code_t drill_parse_M_code(gerb_file_t *fd, drill_state_t *state,
-				gerbv_image_t *image, ssize_t file_line);
+				gerbv_image_t *image, unsigned int file_line);
 static int drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
-				gerbv_image_t *image, ssize_t file_line);
+				gerbv_image_t *image, unsigned int file_line);
 static int drill_parse_header_is_metric(gerb_file_t *fd, drill_state_t *state,
-				gerbv_image_t *image, ssize_t file_line);
+				gerbv_image_t *image, unsigned int file_line);
 static int drill_parse_header_is_metric_comment(gerb_file_t *fd, drill_state_t *state,
-                                                gerbv_image_t *image, ssize_t file_line);
+                                                gerbv_image_t *image, unsigned int file_line);
 static int drill_parse_header_is_inch(gerb_file_t *fd, drill_state_t *state,
-				gerbv_image_t *image, ssize_t file_line);
+				gerbv_image_t *image, unsigned int file_line);
 static int drill_parse_header_is_ici(gerb_file_t *fd, drill_state_t *state,
-				gerbv_image_t *image, ssize_t file_line);
+				gerbv_image_t *image, unsigned int file_line);
 static void drill_parse_coordinate(gerb_file_t *fd, char firstchar,
 				gerbv_image_t *image, drill_state_t *state,
-				ssize_t file_line);
+				unsigned int file_line);
 static drill_state_t *new_state(drill_state_t *state);
 static double read_double(gerb_file_t *fd, number_fmt_t fmt,
 				gerbv_omit_zeros_t omit_zeros, int decimals);
@@ -294,7 +294,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
     int read;
     gerbv_drill_stats_t *stats;
     gchar *tmps;
-    ssize_t file_line = 1;
+    unsigned int file_line = 1;
 
     /* 
      * many locales redefine "." as "," and so on, so sscanf and strtod 
@@ -389,9 +389,9 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 	    }
 	    tmps = get_line(fd);
 	    gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_NOTE, -1,
-		    _("Comment \"%s\" at line %ld in file \"%s\""),
+		    _("Comment \"%s\" at line %u in file \"%s\""),
 		    tmps, file_line, fd->filename);
-	    dprintf("    Comment with ';' \"%s\" at line %ld\n",
+	    dprintf("    Comment with ';' \"%s\" at line %u\n",
 		    tmps, file_line);
 	    g_free(tmps);
 	    break;
@@ -419,7 +419,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 	    } else {
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Unrecognised string \"%s\" in header "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			tmps, file_line, fd->filename);
 	    }
 	    g_free (tmps);
@@ -439,7 +439,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		gerbv_stats_printf(stats->error_list,
 			GERBV_MESSAGE_ERROR, -1,
 			_("File in unsupported format 1 "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			file_line, fd->filename);
 
 		gerbv_destroy_image(image);
@@ -451,7 +451,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 	    gerbv_stats_printf(stats->error_list,
 			    GERBV_MESSAGE_ERROR, -1,
 			    _("Unrecognised string \"%s\" in header "
-				    "at line %ld in file \"%s\""),
+				    "at line %u in file \"%s\""),
 			    tmps, file_line, fd->filename);
 
 	    g_free (tmps);
@@ -535,7 +535,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		gerbv_stats_printf(stats->error_list,
 			GERBV_MESSAGE_ERROR, -1,
 			_("Unrecognized string \"%s\" found "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			tmps, file_line, fd->filename);
 		g_free(tmps);
 		break;
@@ -544,7 +544,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		eat_line(fd);
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Unsupported G%02d (%s) code "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			g_code, drill_g_code_name(g_code),
 			file_line, fd->filename);
 		break;
@@ -566,7 +566,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 	    gerbv_stats_printf(stats->error_list,
 		    GERBV_MESSAGE_ERROR, -1,
 		    _("Unrecognized string \"%s\" found "
-			"at line %ld in file \"%s\""),
+			"at line %u in file \"%s\""),
 		    tmps, file_line, fd->filename);
 	    g_free(tmps);
 
@@ -596,7 +596,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 			    _("End of Excellon header reached "
 				"but no leading/trailing zero "
 				"handling specified "
-				"at line %ld in file \"%s\""),
+				"at line %u in file \"%s\""),
 			    file_line, fd->filename);
 		    gerbv_stats_printf(stats->error_list,
 			    GERBV_MESSAGE_WARNING, -1,
@@ -614,7 +614,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 			    GERBV_MESSAGE_WARNING, -1,
 			    _("M71 code found but no METRIC "
 				"specification in header "
-				"at line %ld in file \"%s\""),
+				"at line %u in file \"%s\""),
 			    file_line, fd->filename);
 		    gerbv_stats_printf(stats->error_list,
 			    GERBV_MESSAGE_WARNING, -1,
@@ -660,7 +660,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		tmps = get_line(fd);
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_NOTE, -1,
 			_("Canned text \"%s\" "
-			    "at line %ld in drill file \"%s\""),
+			    "at line %u in drill file \"%s\""),
 			tmps, file_line, fd->filename);
 		g_free(tmps);
 		break;
@@ -669,7 +669,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		tmps = get_line(fd);
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_NOTE, -1,
 			_("Message \"%s\" embedded "
-			    "at line %ld in drill file \"%s\""),
+			    "at line %u in drill file \"%s\""),
 			tmps, file_line, fd->filename);
 		g_free(tmps);
 		break;
@@ -696,7 +696,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		gerbv_stats_printf(stats->error_list,
 			GERBV_MESSAGE_ERROR, -1,
 			_("Unrecognized string \"%s\" found "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			tmps, file_line, fd->filename);
 		g_free(tmps);
 
@@ -706,7 +706,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		stats->M_unknown++;
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Unsupported M%02d (%s) code found "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			m_code, _(drill_m_code_name(m_code)),
 			file_line, fd->filename);
 		break;
@@ -720,7 +720,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		stats->unknown++;
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Not allowed 'R' code in the header "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			file_line, fd->filename);
 	    } else {
 	      double start_x, start_y;
@@ -780,7 +780,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 	case 'S':
 	    gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_NOTE, -1,
 		    _("Ignoring setting spindle speed "
-			"at line %ld in drill file \"%s\""),
+			"at line %u in drill file \"%s\""),
 		    file_line, fd->filename);
 	    eat_line(fd);
 	    break;
@@ -794,7 +794,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 	    if (0 != strcmp (tmps, "VER,1")) {
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_NOTE, -1,
 			_("Undefined string \"%s\" in header "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			tmps, file_line, fd->filename);
 	    }
 	    g_free (tmps);
@@ -841,7 +841,7 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 	    if (DRILL_HEADER == state->curr_section) {
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Undefined code '%s' (0x%x) found in header "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			gerbv_escape_char(read), read,
 			file_line, fd->filename);
 		gerb_ungetc(fd);
@@ -850,13 +850,13 @@ parse_drillfile(gerb_file_t *fd, gerbv_HID_Attribute *attr_list, int n_attr, int
 		tmps = get_line(fd);
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_WARNING, -1,
 			_("Unrecognised string \"%s\" in header "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			tmps, file_line, fd->filename);
 	  	g_free (tmps);
 	    } else {
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Ignoring undefined character '%s' (0x%x) "
-			    "found inside data at line %ld in file \"%s\""),
+			    "found inside data at line %u in file \"%s\""),
 			gerbv_escape_char(read), read, file_line, fd->filename);
 	    }
 	}
@@ -1056,7 +1056,7 @@ drill_file_p(gerb_file_t *fd, gboolean *returnFoundBinary)
    Returns tool number on success, -1 on error */
 static int
 drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
-			gerbv_image_t *image, ssize_t file_line)
+			gerbv_image_t *image, unsigned int file_line)
 {
     int tool_num;
     gboolean done = FALSE;
@@ -1083,7 +1083,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
     	  	tmps = get_line(fd++);
     	  	gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_NOTE, -1,
 			_("Tool change stop switch found \"%s\" "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			tmps, file_line, fd->filename);
 	  	g_free (tmps);
 
@@ -1101,7 +1101,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
 	    tmps = get_line(fd);
 	    gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_WARNING, -1,
 		    _("Junk text \"%s\" "
-			"at line %ld in file \"%s\""),
+			"at line %u in file \"%s\""),
 		    tmps, file_line, fd->filename);
 	    g_free (tmps);
 	    gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_WARNING, -1,
@@ -1112,7 +1112,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
     gerb_ungetc(fd);
 
     tool_num = (int) gerb_fgetint(fd, NULL);
-    dprintf ("  Handling tool T%d at line %ld\n", tool_num, file_line);
+    dprintf ("  Handling tool T%d at line %u\n", tool_num, file_line);
 
     if (tool_num == 0) 
 	return tool_num; /* T00 is a command to unload the drill */
@@ -1120,7 +1120,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
     if (tool_num < TOOL_MIN || tool_num >= TOOL_MAX) {
 	gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 		_("Out of bounds drill number %d "
-		    "at line %ld in file \"%s\""),
+		    "at line %u in file \"%s\""),
 		tool_num, file_line, fd->filename);
 	return -1;
     }
@@ -1151,7 +1151,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
 
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Read a drill of diameter %g inches "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			    size, file_line, fd->filename);
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_WARNING, -1,
 			_("Assuming units are mils"));
@@ -1161,7 +1161,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
 	    if (size <= 0. || size >= 10000.) {
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Unreasonable drill size %g found for drill %d "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			    size, tool_num, file_line, fd->filename);
 	    } else {
 		if (apert != NULL) {
@@ -1177,7 +1177,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
 			gerbv_stats_printf(stats->error_list,
 				GERBV_MESSAGE_ERROR, -1,
 				_("Found redefinition of drill %d "
-				"at line %ld in file \"%s\""),
+				"at line %u in file \"%s\""),
 				tool_num, file_line, fd->filename);
 		    }
 		} else {
@@ -1259,7 +1259,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
             if (tool_num != 0) {
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
 			_("Tool %02d used without being defined "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			tool_num, file_line, fd->filename);
 		gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_WARNING, -1,
 			_("Setting a default size of %g\""), dia);
@@ -1294,7 +1294,7 @@ drill_parse_T_code(gerb_file_t *fd, drill_state_t *state,
 /* -------------------------------------------------------------- */
 static drill_m_code_t
 drill_parse_M_code(gerb_file_t *fd, drill_state_t *state,
-	gerbv_image_t *image, ssize_t file_line)
+	gerbv_image_t *image, unsigned int file_line)
 {
     gerbv_drill_stats_t *stats = image->drill_stats;
     drill_m_code_t m_code;
@@ -1315,7 +1315,7 @@ drill_parse_M_code(gerb_file_t *fd, drill_state_t *state,
 	return DRILL_M_UNKNOWN;
     }
 
-    dprintf("  Compare M-code \"%s\" at line %ld\n", op, file_line);
+    dprintf("  Compare M-code \"%s\" at line %u\n", op, file_line);
 
     switch (m_code = atoi(op)) {
     case 0:
@@ -1381,7 +1381,7 @@ drill_parse_M_code(gerb_file_t *fd, drill_state_t *state,
 /* -------------------------------------------------------------- */
 static int
 drill_parse_header_is_metric(gerb_file_t *fd, drill_state_t *state,
-			gerbv_image_t *image, ssize_t file_line)
+			gerbv_image_t *image, unsigned int file_line)
 {
     gerbv_drill_stats_t *stats = image->drill_stats;
     char c, op[3];
@@ -1518,7 +1518,7 @@ header_junk:
 	    gerbv_stats_printf(stats->error_list,
 		    GERBV_MESSAGE_WARNING, -1,
 		    _("Found junk after METRIC command "
-			"at line %ld in file \"%s\""),
+			"at line %u in file \"%s\""),
 		    file_line, fd->filename);
 	    break;
 	}
@@ -1536,7 +1536,7 @@ header_junk:
  * 0. */
 static int
 drill_parse_header_is_metric_comment(gerb_file_t *fd, drill_state_t *state,
-                                     gerbv_image_t *image, ssize_t file_line) {
+                                     gerbv_image_t *image, unsigned int file_line) {
   gerbv_drill_stats_t *stats = image->drill_stats;
 
   dprintf("    %s(): entering\n", __FUNCTION__);
@@ -1549,7 +1549,7 @@ drill_parse_header_is_metric_comment(gerb_file_t *fd, drill_state_t *state,
     case -1:
       gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
                          _("Unexpected EOF found while parsing \"%s\" string "
-                           "in file \"%s\" on line %ld"),
+                           "in file \"%s\" on line %u"),
                          "FILE_FORMAT", fd->filename, file_line);
       return 0;
     case 0:
@@ -1560,7 +1560,7 @@ drill_parse_header_is_metric_comment(gerb_file_t *fd, drill_state_t *state,
   if (file_check_str(fd, "=") != 1) {
     gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
                        _("Expected '=' while parsing \"%s\" string "
-                         "in file \"%s\" on line %ld"),
+                         "in file \"%s\" on line %u"),
                        "FILE_FORMAT", fd->filename, file_line);
     return 0;
   }
@@ -1572,7 +1572,7 @@ drill_parse_header_is_metric_comment(gerb_file_t *fd, drill_state_t *state,
     gerbv_stats_printf(
         stats->error_list, GERBV_MESSAGE_ERROR, -1,
         _("Expected integer after '=' while parsing \"%s\" string "
-          "in file \"%s\" on line %ld"),
+          "in file \"%s\" on line %u"),
         "FILE_FORMAT", fd->filename, file_line);
     return 0;
   }
@@ -1580,7 +1580,7 @@ drill_parse_header_is_metric_comment(gerb_file_t *fd, drill_state_t *state,
   if (file_check_str(fd, ":") != 1) {
     gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
                        _("Expected ':' while parsing \"%s\" string "
-                         "in file \"%s\" on line %ld"),
+                         "in file \"%s\" on line %u"),
                        "FILE_FORMAT", fd->filename, file_line);
     return 0;
   }
@@ -1591,7 +1591,7 @@ drill_parse_header_is_metric_comment(gerb_file_t *fd, drill_state_t *state,
     gerbv_stats_printf(
         stats->error_list, GERBV_MESSAGE_ERROR, -1,
         _("Expected integer after ':' while parsing \"%s\" string "
-          "in file \"%s\" on line %ld"),
+          "in file \"%s\" on line %u"),
         "FILE_FORMAT", fd->filename, file_line);
     /* We've failed to read a number. */
     return 0;
@@ -1605,7 +1605,7 @@ drill_parse_header_is_metric_comment(gerb_file_t *fd, drill_state_t *state,
 /* -------------------------------------------------------------- */
 static int
 drill_parse_header_is_inch(gerb_file_t *fd, drill_state_t *state,
-			gerbv_image_t *image, ssize_t file_line)
+			gerbv_image_t *image, unsigned int file_line)
 {
     gerbv_drill_stats_t *stats = image->drill_stats;
     char c;
@@ -1657,7 +1657,7 @@ drill_parse_header_is_inch(gerb_file_t *fd, drill_state_t *state,
 			GERBV_MESSAGE_WARNING, -1,
 			_("Found junk '%s' after "
 			    "INCH command "
-			    "at line %ld in file \"%s\""),
+			    "at line %u in file \"%s\""),
 			gerbv_escape_char(c),
 			file_line, fd->filename);
 		break;
@@ -1666,7 +1666,7 @@ drill_parse_header_is_inch(gerb_file_t *fd, drill_state_t *state,
 	    gerbv_stats_printf(stats->error_list,
 		    GERBV_MESSAGE_WARNING, -1,
 		    _("Found junk '%s' after INCH command "
-			"at line %ld in file \"%s\""),
+			"at line %u in file \"%s\""),
 		    gerbv_escape_char(c),
 		    file_line, fd->filename);
 	}
@@ -1681,7 +1681,7 @@ drill_parse_header_is_inch(gerb_file_t *fd, drill_state_t *state,
 /* Check "ICI" incremental input of coordinates */
 static int
 drill_parse_header_is_ici(gerb_file_t *fd, drill_state_t *state,
-			gerbv_image_t *image, ssize_t file_line)
+			gerbv_image_t *image, unsigned int file_line)
 {
     gerbv_drill_stats_t *stats = image->drill_stats;
 
@@ -1713,8 +1713,8 @@ drill_parse_header_is_ici(gerb_file_t *fd, drill_state_t *state,
 } /* drill_parse_header_is_ici() */
 
 /* -------------------------------------------------------------- */
-static drill_g_code_t 
-drill_parse_G_code(gerb_file_t *fd, gerbv_image_t *image, ssize_t file_line)
+static drill_g_code_t
+drill_parse_G_code(gerb_file_t *fd, gerbv_image_t *image, unsigned int file_line)
 {
     char op[3];
     drill_g_code_t g_code;
@@ -1734,7 +1734,7 @@ drill_parse_G_code(gerb_file_t *fd, gerbv_image_t *image, ssize_t file_line)
 	return DRILL_G_UNKNOWN;
     }
 
-    dprintf("  Compare G-code \"%s\" at line %ld\n", op, file_line);
+    dprintf("  Compare G-code \"%s\" at line %u\n", op, file_line);
 
     switch (g_code = atoi(op)) {
     case 0:
@@ -1790,7 +1790,7 @@ drill_parse_G_code(gerb_file_t *fd, gerbv_image_t *image, ssize_t file_line)
 static void
 drill_parse_coordinate(gerb_file_t *fd, char firstchar,
 		       gerbv_image_t *image, drill_state_t *state,
-		       ssize_t file_line)
+		       unsigned int file_line)
 {
     gerbv_drill_stats_t *stats = image->drill_stats;
 
@@ -1831,7 +1831,7 @@ drill_parse_coordinate(gerb_file_t *fd, char firstchar,
     } else {
       gerbv_stats_printf(stats->error_list, GERBV_MESSAGE_ERROR, -1,
                          _("Coordinate mode is not absolute and not incremental "
-                           "at line %ld in file \"%s\""),
+                           "at line %u in file \"%s\""),
                          file_line, fd->filename);
     }
 } /* drill_parse_coordinate */

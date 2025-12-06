@@ -57,7 +57,7 @@ This is a list of things I hope to be able to fix
 
 - [ ] [CMake](#cmake)
   - [X] Fix Linux/general CMake target
-  - [ ] Fix Windows CMake by cross compilation to Mingw64
+  - [X] Fix Windows CMake by cross compilation using Mingw64
   - [ ] Remove files that are not used anymore or just ancient
   - [ ] Make Github pipeline compile the new targets
   - [ ] Fix outstanding tests/targets that are in use on the Github pipeline
@@ -173,6 +173,42 @@ cmake --install build
 ```
 
 If you want to install it somewhere else, then YMMV.
+
+### Mingw64 cross compilation
+
+**Status**: *compiles*
+
+For creating Windows binaries, the Fedora distribution is used. It provides all the development libraries
+that is needed for Mingw64 cross compilation, especially GTK2.0+ and Cairo.
+
+Compilation have been tested on Fedora 43 with the following libraries installed:
+* `mingw64-cairo-static`
+* `mingw64-gtk2.static`
+* `cmake`
+* `ninja`
+* `mingw64-gcc`
+* `mingw64-gcc-c++`
+* `gettext`
+
+As the binaries are not tested at the moment it might not work or crash horrible. But I would
+appreciate any report.
+
+The preset is called `mingw-w64-gcc` and the toolchain file is located in `cmake/toolchains/mingw-w64-gcc.cmake`.
+
+To configure you do
+```
+cmake --preset mingw-w64-gcc
+```
+and to compile you do
+```
+cmake --build --preset mingw-w64-gcc
+```
+
+### Other cross compilations
+
+To create another cross compilation target, check the directory `cmake/toolchains/`.
+
+To create another preset, check out the directory`cmake/preset/` and add the new preset file as an include in `CMakePreset.json`.
 
 ## Applied patches from SourceForge
 

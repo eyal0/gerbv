@@ -516,7 +516,7 @@ init_paths (char *argv0)
       /* we have failed to find out anything from argv[0] so fall back to the original
        * install prefix
        */
-       bindir = strdup (BINDIR);
+       bindir = strdup (GERBV_BINDIR);
     }
     
   /* now find the path to exec_prefix */
@@ -538,8 +538,8 @@ init_paths (char *argv0)
     }
   sprintf (pkgdatadir, "%s%s%s", bindir, GERBV_DIR_SEPARATOR_S,
            BINDIR_TO_PKGDATADIR);
-  
-  scmdatadir = g_strdup_printf ("%s%s%s", pkgdatadir, GERBV_DIR_SEPARATOR_S, SCMSUBDIR);
+
+  scmdatadir = g_strdup_printf ("%s%s%s", pkgdatadir, GERBV_DIR_SEPARATOR_S, GERBV_SCMSUBDIR);
 
   dprintf ("%s():  bindir      = %s\n", __FUNCTION__, bindir);
   dprintf ("%s():  exec_prefix = %s\n", __FUNCTION__, exec_prefix);
@@ -950,8 +950,8 @@ read_project_file(char const* filename)
      * default compiled in directory.  After that try the directory
      * where the binary lives and finally the current directory.
      */
-    char *initdirs[] = {"$GERBV_SCHEMEINIT","", BACKEND_DIR, 
-                        mainProject->execpath, ".", 
+    char *initdirs[] = {"$GERBV_SCHEMEINIT","", GERBV_BACKEND_DIR,
+                        mainProject->execpath, ".",
 			NULL};
     char *initfile;
 

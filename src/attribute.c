@@ -284,10 +284,10 @@ attribute_interface_dialog (gerbv_HID_Attribute * attrs,
 		       const char * descr)
 {
   GtkWidget *dialog, *main_vbox, *vbox, *vbox1, *hbox, *entry;
-  GtkWidget *combo;
-  GtkWidget *widget;
-  int i, j;
-  GtkTooltips *tips;
+  GtkWidget *combo = NULL;
+  GtkWidget *widget = NULL;
+  int i = 0, j = 0;
+  GtkTooltips *tips = NULL;
   int rc = 0;
   int set_auto_uncheck = 0;
   int sen = TRUE;

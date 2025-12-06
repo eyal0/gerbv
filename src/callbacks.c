@@ -66,7 +66,7 @@
 #include "draw.h"
 #ifdef WIN32
 # include <cairo-win32.h>
-#elif QUARTZ
+#elif defined(QUARTZ)
 # include <cairo-quartz.h>
 #else
 # include <cairo-xlib.h>
