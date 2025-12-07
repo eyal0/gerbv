@@ -58,7 +58,7 @@ This is a list of things I hope to be able to fix
 - [ ] [CMake](#cmake)
   - [X] Fix Linux/general CMake target
   - [X] Fix Windows CMake by cross compilation using Mingw64
-  - [ ] Remove files that are not used anymore or just ancient
+  - [X] Remove files that are not used anymore or just ancient
   - [ ] Make Github pipeline compile the new targets
   - [ ] Fix outstanding tests/targets that are in use on the Github pipeline
 - [X] [Fixing first set of trivial bugs](#fixing-first-set-of-trivial-bugs)
