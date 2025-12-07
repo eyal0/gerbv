@@ -73,9 +73,6 @@
 /* Define to 1 if you have the `dxflib' library (-ldxflib). */
 #cmakedefine HAVE_LIBDXFLIB @HAVE_LIBDXFLIB@
 
-/* Define to 1 if you have the `efence' library (-lefence). */
-#cmakedefine HAVE_LIBEFENCE @HAVE_LIBEFENCE@
-
 /* Define to 1 if you have the <libgen.h> header file. */
 #cmakedefine HAVE_LIBGEN_H @HAVE_LIBGEN_H@
 
