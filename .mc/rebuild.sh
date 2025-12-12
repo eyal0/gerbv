@@ -7,9 +7,8 @@
 #     mc ubuntu_22.04 .mc/rebuild.sh
 set -e
 
-sh autogen.sh
+rm -rf build
 /opt/configure.sh
-make clean
-make
+cmake --build build
 /opt/package.sh
 

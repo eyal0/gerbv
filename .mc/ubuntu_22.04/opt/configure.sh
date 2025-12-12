@@ -2,8 +2,4 @@
 
 set -e
 
-./configure					\
-	--disable-debug				\
-	--enable-dxf				\
-	--disable-update-desktop-database	\
-
+cmake --preset linux-gnu-gcc
