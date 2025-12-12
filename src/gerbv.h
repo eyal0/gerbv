@@ -1120,18 +1120,27 @@ gerbv_transform_coord(double *x, double *y,
 void
 gerbv_rotate_coord(double *x, double *y, double rad);
 
+/* Standard C inline functions for MIN/MAX - works with any C99+ compiler */
 #undef MIN
 #undef MAX
-#define MIN(x,y) ({ \
-		typeof(x) _x = (x);     \
-		typeof(y) _y = (y);     \
-		(void) (&_x == &_y);    \
-		_x < _y ? _x : _y; })
-#define MAX(x,y) ({ \
-		typeof(x) _x = (x);     \
-		typeof(y) _y = (y);     \
-		(void) (&_x == &_y);    \
-		_x > _y ? _x : _y; })
+
+static inline int min_int(int x, int y) { return x < y ? x : y; }
+static inline int max_int(int x, int y) { return x > y ? x : y; }
+static inline double min_double(double x, double y) { return x < y ? x : y; }
+static inline double max_double(double x, double y) { return x > y ? x : y; }
+
+/* Generic macros using C11 _Generic for type-safe selection */
+#define MIN(x, y) _Generic((x), \
+    int: min_int, \
+    double: min_double, \
+    default: min_double \
+)((x), (y))
+
+#define MAX(x, y) _Generic((x), \
+    int: max_int, \
+    double: max_double, \
+    default: max_double \
+)((x), (y))
 
 #if defined(__cplusplus)
 }
