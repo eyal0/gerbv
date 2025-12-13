@@ -232,6 +232,13 @@ Gerbv has been built and tested on
 * Ubuntu 22.04 (amd64)
 * Windows 10 (amd64 cross compiled from Fedora as well as native x86/amd64 using MSYS2)
 
+### Fedora 43 upgrade
+
+There is a build for both Fedora 43 and for Windows using Fedora 43 (previously 38). Both builds
+suffer from missing DXF support libraries. Fedora have another DXF library available, but that
+requires porting work and support for two different DXF libs. Of course neither Debian nor
+Ubuntu have that library available.
+
 ### Why not Ubuntu 24.04?
 
 There is a problem switching to Ubuntu 24.04, which should be the better choice. The Docker image
