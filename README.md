@@ -232,6 +232,20 @@ Gerbv has been built and tested on
 * Ubuntu 22.04 (amd64)
 * Windows 10 (amd64 cross compiled from Fedora as well as native x86/amd64 using MSYS2)
 
+### Why not Ubuntu 24.04?
+
+There is a problem switching to Ubuntu 24.04, which should be the better choice. The Docker image
+for Ubuntu 24.04 defines a user with UID/GID 1000, the toolchain used to do the cross compilation
+(see https://github.com/ooxi/mini-cross) tries to define a new user with same UID/GID and thus fails.
+
+Using the mini-cross builder is a problem in itself, but that issue is for another day.
+
+The problem might only be when running the application locally, but it is hard to develop and test
+without being able to run locally. When installing Ubuntu, the first user created is always UID/GID
+1000. 
+
+This problem have been deferred at the moment, running on Ubuntu 22.04 should be good enough for the
+time being.
 
 ## Information for developers
 
