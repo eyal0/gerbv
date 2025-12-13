@@ -103,6 +103,10 @@ jobs:
       if: "!matrix.code_coverage"
       run: npx --package mini-cross@0.15.2 mc --no-tty ubuntu_22.04 .mc/rebuild.sh
 
+    - name: Rebuild Debian 13
+      if: "!matrix.code_coverage"
+      run: npx --package mini-cross@0.15.2 mc --no-tty debian_13 .mc/rebuild.sh
+
     - name: Rebuild Windows amd64
       if: "!matrix.code_coverage"
       run: npx --package mini-cross@0.15.2 mc --no-tty windows_amd64 .mc/rebuild.sh
