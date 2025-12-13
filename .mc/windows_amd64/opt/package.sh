@@ -66,10 +66,9 @@ WEBSITE_DIRECTORY='gerbv.github.io/ci'
 TEMPORARY_DIRECTORY=`"${MKTEMP}" --directory`
 
 "${CP}" 'COPYING' "${TEMPORARY_DIRECTORY}"
-"${CP}" 'NEWS' "${TEMPORARY_DIRECTORY}"
 "${CP}" 'src/init.scm' "${TEMPORARY_DIRECTORY}"
-"${CP}" 'src/.libs/gerbv.exe' "${TEMPORARY_DIRECTORY}"
-"${FIND}" 'src/.libs' -name 'libgerbv-*.dll' -exec "${CP}" {} "${TEMPORARY_DIRECTORY}" \;
+"${CP}" 'build/src/Debug/gerbv.exe' "${TEMPORARY_DIRECTORY}"
+"${FIND}" 'build/src/Debug' -name 'libgerbv*.dll' -exec "${CP}" {} "${TEMPORARY_DIRECTORY}" \;
 
 # @warning While this might copy more libraries than strictly necessary, it
 #     won't be many more, since the development environment contains only the

@@ -2,7 +2,5 @@
 
 set -e
 
-mingw64-configure				\
-	--disable-debug				\
-	--disable-update-desktop-database	\
+cmake --preset mingw-w64-gcc
 
