@@ -66,7 +66,10 @@ This is a list of things I hope to be able to fix
     - [ ] Enable Valgrind (maybe)
     - [ ] Enable Coverage (maybe)
 - [X] [Fixing first set of trivial bugs](#fixing-first-set-of-trivial-bugs)
-- [ ] NSIS wrapper for Windows builds
+- [ ] [Packing](#packing)
+  - [X] deb
+  - [X] rpm
+  - [ ] Windows NSIS
 - [ ] [More updated Gerber specifications](#more-updated-gerber-specifications)
 - [ ] [Port over to GTK-3.0](#port-over-to-gtk-30)
 - [ ] [Fixing misunderstandings of the original specification](#fixing-misunderstandings-of-the-original-specification)
@@ -89,6 +92,21 @@ updated at a later stage.
 
 When I was porting the code to CMake I found a bunch of trivial but serious errors. So I fixed
 them. Upgrading the compiler version have also reveled a number of compilation errors.
+
+### Packing
+
+Current packing of binaries are zipping it all together. It is always nicer to have the code
+in the - for the operating system/distribution - native way.
+
+Since we now use CMake we should be able to use the packing support available. For Debian/Ubuntu
+that would mean `.deb` and for Red Hat/Fedora that would mean `.rpm`. When creating the CMake build
+system I spent considerable time to make the install target to be as good as it possible could,
+looking at the Ubuntu/Debian gerbv package as a role model.
+
+For Windows builds we should use the NSIS toolchain. For the Windows packing there is a need for
+distributing all the `.dll` files as well (30+), but my limited experience says it shouldn't be a
+problem.
+
 
 ### More updated Gerber specifications
 
