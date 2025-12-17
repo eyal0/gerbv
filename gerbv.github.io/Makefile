@@ -15,7 +15,7 @@ clean:
 
 .PHONY: build
 build:
-	make -C '..' doxygen
+	cd '..' && doxygen doc/Doxyfile.nopreprocessing
 	cp -r '../doc/html' 'doc'
 
 	m4 'index.html.m4' > 'index.html'

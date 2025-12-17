@@ -66,16 +66,22 @@
            <th>Download</th>
          </tr>
          <tr>
-           <td style="vertical-align: middle"><img src="assets/Fedora_icon_(2021).svg" alt="Fedora 38" title="Fedora 38" style="height: 100px; box-shadow: none; border: none" /></td>
-           <td style="vertical-align: middle">include(ci/Fedora 38.RELEASE_DATE)</td>
-           <td style="vertical-align: middle"><code><a href="https://github.com/gerbv/gerbv/tree/include(ci/Fedora 38.RELEASE_COMMIT)">include(ci/Fedora 38.RELEASE_COMMIT_SHORT)</a></code></td>
-           <td style="vertical-align: middle"><a class="tar_download_link" href="ci/include(ci/Fedora 38.RELEASE_FILENAME)">Download Fedora 38 binaries</a></td>
+           <td style="vertical-align: middle"><img src="assets/Fedora_icon_(2021).svg" alt="Fedora 43" title="Fedora 43" style="height: 100px; box-shadow: none; border: none" /></td>
+           <td style="vertical-align: middle">include(ci/Fedora 43.RELEASE_DATE)</td>
+           <td style="vertical-align: middle"><code><a href="https://github.com/gerbv/gerbv/tree/include(ci/Fedora 43.RELEASE_COMMIT)">include(ci/Fedora 43.RELEASE_COMMIT_SHORT)</a></code></td>
+           <td style="vertical-align: middle"><a class="tar_download_link" href="ci/include(ci/Fedora 43.RELEASE_FILENAME)">Download Fedora 43 binaries</a></td>
          </tr>
          <tr>
            <td style="vertical-align: middle"><img src="assets/cof_orange_hex.png" alt="Ubuntu 22.04" title="Ubuntu 22.04" style="height: 100px; box-shadow: none; border: none" /></td>
            <td style="vertical-align: middle">include(ci/Ubuntu 22.04.RELEASE_DATE)</td>
            <td style="vertical-align: middle"><code><a href="https://github.com/gerbv/gerbv/tree/include(ci/Ubuntu 22.04.RELEASE_COMMIT)">include(ci/Ubuntu 22.04.RELEASE_COMMIT_SHORT)</a></code></td>
            <td style="vertical-align: middle"><a class="tar_download_link" href="ci/include(ci/Ubuntu 22.04.RELEASE_FILENAME)">Download Ubuntu 22.04 binaries</a></td>
+         </tr>
+         <tr>
+           <td style="vertical-align: middle"><img src="assets/Debian-OpenLogo.svg" alt="Debian 13" title="Debian 13" style="height: 100px; box-shadow: none; border: none" /></td>
+           <td style="vertical-align: middle">include(ci/Debian 13.RELEASE_DATE)</td>
+           <td style="vertical-align: middle"><code><a href="https://github.com/gerbv/gerbv/tree/include(ci/Debian 13.RELEASE_COMMIT)">include(ci/Debian 13.RELEASE_COMMIT_SHORT)</a></code></td>
+           <td style="vertical-align: middle"><a class="tar_download_link" href="ci/include(ci/Debian 13.RELEASE_FILENAME)">Download Debian 13 binaries</a></td>
          </tr>
          <tr>
            <td style="vertical-align: middle"><img src="assets/Windows_10_Logo.png" alt="Windows amd64" title="Windows amd64" style="height: 100px; box-shadow: none; border: none" /></td>
