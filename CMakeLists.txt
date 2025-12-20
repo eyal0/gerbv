@@ -51,8 +51,38 @@ target_compile_definitions(compilation-flags INTERFACE "GERBV_BINDIR=\"${CMAKE_I
 target_compile_definitions(compilation-flags INTERFACE "GERBV_SCMSUBDIR=\"${SCMSUBDIR}\"")
 target_compile_definitions(compilation-flags INTERFACE "GERBV_BACKEND_DIR=\"${BACKEND_DIR}\"")
 
+if(NOT WIN32 AND CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+    # set CMAKE_INSTALL_PREFIX with -D parameter to cmake
+    set(CPACK_PACKAGING_INSTALL_PREFIX ${CMAKE_INSTALL_PREFIX})
+endif()
+
 include(GetGitVersion)
-get_git_version(VERSION)
+get_git_version(GIT_VERSION)
+
+# Parse git version for packaging
+# Format: v4.0.1 or v4.0.1-23-gabcd1234 or v4.0.1-dirty
+string(REGEX REPLACE "^v" "" GIT_VERSION_CLEAN "${GIT_VERSION}")
+string(REGEX MATCH "^([0-9]+)\\.([0-9]+)\\.?([0-9]*)" VERSION_MATCH "${GIT_VERSION_CLEAN}")
+set(VERSION_MAJOR "${CMAKE_MATCH_1}")
+set(VERSION_MINOR "${CMAKE_MATCH_2}")
+set(VERSION_PATCH "${CMAKE_MATCH_3}")
+
+# If no patch version, default to 0
+if("${VERSION_PATCH}" STREQUAL "")
+    set(VERSION_PATCH "0")
+endif()
+
+# Extract additional info (commit count + hash or -dirty)
+string(REGEX REPLACE "^[0-9]+\\.[0-9]+\\.?[0-9]*-?" "" VERSION_SUFFIX "${GIT_VERSION_CLEAN}")
+
+# Override project version with git version
+set(PROJECT_VERSION_MAJOR ${VERSION_MAJOR})
+set(PROJECT_VERSION_MINOR ${VERSION_MINOR})
+set(PROJECT_VERSION_PATCH ${VERSION_PATCH})
+set(PROJECT_VERSION "${VERSION_MAJOR}.${VERSION_MINOR}.${VERSION_PATCH}")
+
+message(STATUS "Version from git: ${GIT_VERSION}")
+message(STATUS "Parsed version: ${PROJECT_VERSION} (suffix: ${VERSION_SUFFIX})")
 
 add_subdirectory(locale)
 add_subdirectory(config)
@@ -62,3 +92,6 @@ add_subdirectory(desktop)
 
 install(DIRECTORY example TYPE DOC) # Rename to examples
 install(DIRECTORY share/ TYPE DATA)
+
+# where to find our CMake modules
+include(Packing)

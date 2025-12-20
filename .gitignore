@@ -12,3 +12,6 @@ CMakeUserPresets.json
 
 # AI
 .claude/
+
+# Package building directory
+_packages/

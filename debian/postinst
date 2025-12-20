@@ -1,0 +1,83 @@
+#!/bin/sh
+# postinst script for gerbv
+# Handles desktop integration and library paths when installed to /opt/gerbv.github
+
+set -e
+
+# Installation prefix (adjust this if your install location changes)
+PREFIX="/opt/gerbv.github"
+
+case "$1" in
+    configure)
+        # 1. Create symlink for the gerbv binary in /usr/bin
+        if [ -f "${PREFIX}/bin/gerbv" ]; then
+            ln -sf "${PREFIX}/bin/gerbv" /usr/bin/gerbv
+            echo "Created symlink: /usr/bin/gerbv -> ${PREFIX}/bin/gerbv"
+        fi
+
+        # 2. Create symlink for the desktop file
+        if [ -f "${PREFIX}/share/applications/gerbv.desktop" ]; then
+            mkdir -p /usr/share/applications
+            ln -sf "${PREFIX}/share/applications/gerbv.desktop" /usr/share/applications/gerbv.desktop
+            echo "Created symlink: /usr/share/applications/gerbv.desktop"
+        fi
+
+        # 3. Create symlinks for icons
+        if [ -d "${PREFIX}/share/icons/hicolor" ]; then
+            mkdir -p /usr/share/icons/hicolor
+            for size in 16x16 22x22 24x24 32x32 48x48 scalable; do
+                if [ -d "${PREFIX}/share/icons/hicolor/${size}" ]; then
+                    mkdir -p "/usr/share/icons/hicolor/${size}/apps"
+                    if [ -f "${PREFIX}/share/icons/hicolor/${size}/apps/gerbv.png" ] || \
+                       [ -f "${PREFIX}/share/icons/hicolor/${size}/apps/gerbv.svg" ]; then
+                        ln -sf "${PREFIX}/share/icons/hicolor/${size}/apps/gerbv"* \
+                               "/usr/share/icons/hicolor/${size}/apps/" 2>/dev/null || true
+                    fi
+                fi
+            done
+            echo "Created icon symlinks in /usr/share/icons/hicolor"
+        fi
+
+        # 4. Add library path to ld.so.conf.d and run ldconfig
+        if [ -d "${PREFIX}/lib" ]; then
+            echo "${PREFIX}/lib" > /etc/ld.so.conf.d/gerbv.conf
+            ldconfig
+            echo "Added ${PREFIX}/lib to library path and ran ldconfig"
+        fi
+
+        # 5. Compile GLib schemas if glib-compile-schemas is available
+        if [ -f "${PREFIX}/share/glib-2.0/schemas/org.geda-user.gerbv.gschema.xml" ]; then
+            if command -v glib-compile-schemas >/dev/null 2>&1; then
+                glib-compile-schemas "${PREFIX}/share/glib-2.0/schemas" 2>/dev/null || true
+                echo "Compiled GLib schemas"
+            fi
+        fi
+
+        # 6. Update desktop database
+        if command -v update-desktop-database >/dev/null 2>&1; then
+            update-desktop-database /usr/share/applications 2>/dev/null || true
+            echo "Updated desktop database"
+        fi
+
+        # 7. Update icon cache
+        if command -v gtk-update-icon-cache >/dev/null 2>&1; then
+            gtk-update-icon-cache -f -t /usr/share/icons/hicolor 2>/dev/null || true
+            echo "Updated icon cache"
+        fi
+
+        echo "Gerbv post-installation setup complete."
+        echo "You can now run 'gerbv' from the command line or find it in your applications menu."
+        ;;
+
+    abort-upgrade|abort-remove|abort-deconfigure)
+        ;;
+
+    *)
+        echo "postinst called with unknown argument \`$1'" >&2
+        exit 1
+        ;;
+esac
+
+#DEBHELPER#
+
+exit 0

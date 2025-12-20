@@ -6,6 +6,13 @@
             "name": "linux-gnu-gcc",
             "inherits": "base",
             "toolchainFile": "cmake/toolchains/linux-gnu-gcc.cmake"
+        },
+        {
+            "name": "linux-gnu-gcc-install",
+            "inherits": "linux-gnu-gcc",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "/opt/gerbv.github/"
+            }
         }
     ],
     "buildPresets": [
@@ -22,5 +29,46 @@
 
     ],
     "testPresets": [],
-    "packagePresets": []
+    "packagePresets": [
+        {
+            "name": "deb",
+            "configurePreset": "linux-gnu-gcc",
+            "generators": [
+                "DEB"
+            ],
+            "configurations": [
+                "Release"
+            ]
+        },
+        {
+            "name": "deb-opt",
+            "configurePreset": "linux-gnu-gcc-install",
+            "generators": [
+                "DEB"
+            ],
+            "configurations": [
+                "Release"
+            ]
+        },
+        {
+            "name": "rpm",
+            "configurePreset": "linux-gnu-gcc",
+            "generators": [
+                "RPM"
+            ],
+            "configurations": [
+                "Release"
+            ]
+        },
+        {
+            "name": "rpm-opt",
+            "configurePreset": "linux-gnu-gcc-install",
+            "generators": [
+                "RPM"
+            ],
+            "configurations": [
+                "Release"
+            ]
+        }
+    ]
 }
