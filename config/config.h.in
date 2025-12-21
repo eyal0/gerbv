@@ -146,7 +146,7 @@
 #define PACKAGE_URL "@PACKAGE_URL@"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "@VERSION@"
+#define PACKAGE_VERSION "@PACKAGE_VERSION@"
 
 /* Scheme interpreter not used standalone */
 #cmakedefine01 STANDALONE
