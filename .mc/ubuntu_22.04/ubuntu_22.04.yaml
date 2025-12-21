@@ -2,13 +2,13 @@
 base: ubuntu:22.04
 install:
  - gcc
- - make
+ - ninja-build
 
  # Buildsystem dependencies
- - autoconf
- - autopoint
- - libtool
  - pkg-config
+ - wget
+ - software-properties-common
+ - gpg
 
  # Runtime dependencies
  - libdxflib-dev
@@ -21,4 +21,12 @@ install:
   # Packaging dependencies
  - git
 ---
+#!/bin/bash
+set -e
+
+# Install CMake 3.28+ from Kitware's official repository
+wget -O - https://apt.kitware.com/keys/kitware-archive-latest.asc 2>/dev/null | gpg --dearmor - | sudo tee /etc/apt/trusted.gpg.d/kitware.gpg >/dev/null
+sudo apt-add-repository -y 'deb https://apt.kitware.com/ubuntu/ jammy main'
+sudo apt-get update
+sudo apt-get install -y cmake
 

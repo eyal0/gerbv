@@ -1,28 +1,29 @@
 name: CI
 
 # Controls when the action will run. Triggers the workflow on push or pull
-# request events but only for the main branch
+# request events but only for the develop branch. Also allows manual trigger.
 on:
   push:
     branches:
-      - main
+      - develop
   pull_request:
-    branches: [ main ]
+    branches: [ develop ]
+  workflow_dispatch:
 
 
 jobs:
   ci:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
     strategy:
       matrix:
-        coverage: ["-coverage", ""] # Coverage build and a regular one
+        coverage: [""] # Only regular build, no coverage
         include:
-          - coverage: "-coverage"
-            code_coverage: "--enable-code-coverage" # Only coverage build has this defined.
-    name: ci${{ matrix.coverage }} # Coverage build has "-coverage" added to the name.
+          - coverage: ""
+            code_coverage: "" # Always empty, so matrix.code_coverage is always false
+    name: ci
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v6
 
     - name: Get number of jobs for compiling
       run: echo "NUM_BUILD_JOBS=$((`nproc --all` * 4))" >> $GITHUB_ENV
@@ -33,7 +34,7 @@ jobs:
     - name: Get requirements for configure and build
       run: |
         sudo apt-get update
-        sudo apt-get install autopoint libgtkmm-2.4-dev desktop-file-utils libc6-dbg
+        sudo apt-get install cmake libgtkmm-2.4-dev desktop-file-utils libc6-dbg
 
     - name: Install coverage specific programs
       if: matrix.code_coverage
@@ -47,7 +48,7 @@ jobs:
         lcov --version
 
     - name: Install valgrind
-      if: "!matrix.code_coverage"
+      if: matrix.code_coverage
       run: |
         pushd ~
         git clone --depth=1 --branch=master https://github.com/eyal0/valgrind.git
@@ -60,9 +61,7 @@ jobs:
         popd
 
     - name: Configure
-      run: |
-        sh autogen.sh
-        ./configure CPPFLAGS_EXTRA=-Werror ${{ matrix.code_coverage }}
+      run: cmake --preset linux-gnu-gcc
 
     - name: Remove debug and optimization and valgrind from coverage builds
       if: matrix.code_coverage
@@ -72,7 +71,7 @@ jobs:
         : > test/run_valgrind_tests.sh # No valgrind tests.
 
     - name: Build
-      run: make -j ${NUM_BUILD_JOBS}
+      run: cmake --build build -j ${NUM_BUILD_JOBS}
 
     - name: Reset coverage
       if: matrix.code_coverage
@@ -80,8 +79,8 @@ jobs:
       run: lcov --directory . -z
 
     - name: Run unit tests
-      run: |
-        make check || (cat test/test-suite.log && false)
+      if: matrix.code_coverage
+      run: cd test && ./run_tests.sh
 
     - name: Gather coverage
       if: matrix.code_coverage
@@ -95,13 +94,17 @@ jobs:
         github-token: ${{ secrets.GITHUB_TOKEN }}
         path-to-lcov: gerbv-lcov.info
 
-    - name: Rebuild Fedora 38
+    - name: Rebuild Fedora 43
       if: "!matrix.code_coverage"
-      run: npx --package mini-cross@0.15.2 mc --no-tty fedora_38 .mc/rebuild.sh
+      run: npx --package mini-cross@0.15.2 mc --no-tty fedora_43 .mc/rebuild.sh
 
     - name: Rebuild Ubuntu 22.04
       if: "!matrix.code_coverage"
       run: npx --package mini-cross@0.15.2 mc --no-tty ubuntu_22.04 .mc/rebuild.sh
+
+    - name: Rebuild Debian 13
+      if: "!matrix.code_coverage"
+      run: npx --package mini-cross@0.15.2 mc --no-tty debian_13 .mc/rebuild.sh
 
     - name: Rebuild Windows amd64
       if: "!matrix.code_coverage"
@@ -109,20 +112,20 @@ jobs:
 
     - name: Upload executable artifacts
       if: "!matrix.code_coverage"
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v6
       with:
         name: gerbv
         path: gerbv.github.io/ci/gerbv*
         if-no-files-found: error
 
     - name: Rebuild gerbv.github.io
-      if: "!matrix.code_coverage"
+      if: ${{ github.ref == 'refs/heads/develop' && !matrix.code_coverage }}
       run: |
         npx --package mini-cross@0.15.2 mc --no-tty website make -C gerbv.github.io
         find gerbv.github.io -type f -name '.gitignore' -exec rm {} \;
 
     - name: Deploy gerbv.github.io
-      uses: JamesIves/github-pages-deploy-action@v4.4.1
+      uses: JamesIves/github-pages-deploy-action@v4
       with:
         repository-name: gerbv/gerbv.github.io
         branch: gh-pages
@@ -134,4 +137,4 @@ jobs:
       # @see https://github.community/t/how-can-i-test-if-secrets-are-available-in-an-action/17911/10
       env:
         GERBV_BUILDBOT_PAT: ${{ secrets.GERBV_BUILDBOT_PAT }}
-      if: ${{ success() && github.event_name == 'push' && env.GERBV_BUILDBOT_PAT  && !matrix.code_coverage }}
+      if: ${{ success() && github.event_name == 'push' && github.ref == 'refs/heads/develop' && env.GERBV_BUILDBOT_PAT && !matrix.code_coverage }}

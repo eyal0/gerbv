@@ -37,10 +37,10 @@ maintainer of the gerbv project) have taken over this branch. I gave up the role
 maintainer many years ago due to me becoming a consultant with my own business and
 didn't feel I had time for this.
 
-Since then a lot of things in the software world have revolutionized they way software is
-developed. Form as simple things as Git and github, up to todays AI coding tools. The compilers
+Since then a lot of things in the software world have revolutionized the way software is
+developed. From as simple things as Git and github, up to todays AI coding tools. The compilers
 have become much better at finding problems and errors (you have to enable flags) and also
-open source tools for static analysis is avaialable.
+open source tools for static analysis is available.
 
 I have plans on what to do. Some plans may upset people. If this upsets you I welcome you
 to create your own fork, I see no problems with that.
@@ -59,8 +59,12 @@ This is a list of things I hope to be able to fix
   - [X] Fix Linux/general CMake target
   - [X] Fix Windows CMake by cross compilation using Mingw64
   - [X] Remove files that are not used anymore or just ancient
-  - [ ] Make Github pipeline compile the new targets
+  - [X] Make Github pipeline compile the new targets
   - [ ] Fix outstanding tests/targets that are in use on the Github pipeline
+    - [ ] Rebuild and deploy website properly (missing variables at the moment)
+    - [ ] Enable unit tests
+    - [ ] Enable Valgrind (maybe)
+    - [ ] Enable Coverage (maybe)
 - [X] [Fixing first set of trivial bugs](#fixing-first-set-of-trivial-bugs)
 - [ ] NSIS wrapper for Windows builds
 - [ ] [More updated Gerber specifications](#more-updated-gerber-specifications)
@@ -78,13 +82,13 @@ Now it is basically Linux everywhere. I have anyhow never liked autotools with i
 Hopefully it can simplify things like MacOS, Windows and packaging. Since we are using GTK, it
 will probably never be trivial I guess.
 
-CMake Presets are a thing. Also some sourcecode directory structure can and will be updated at a later
-stage.
+CMake Presets are a thing. Also some sourcecode directory structure can and will probably be
+updated at a later stage.
 
 ### Fixing first set of trivial bugs
 
 When I was porting the code to CMake I found a bunch of trivial but serious errors. So I fixed
-them.
+them. Upgrading the compiler version have also reveled a number of compilation errors.
 
 ### More updated Gerber specifications
 
@@ -111,7 +115,7 @@ a frontend using OpenGL is always welcome.
 ### Fixing misunderstandings of the original specification
 
 I am not a graphics guy, I always liked the parsing part more. So from the tiny "standards" paper
-to the fullblown standards paper of today there are bunch of things that has been missunderstood
+to the full-blown standards paper of today there are bunch of things that has been misunderstood
 or not even implemented.
 
 ### General documentation
@@ -119,7 +123,7 @@ or not even implemented.
 There are today lots of tools to document your code. One great thing I have discovered by switching
 to a more modern IDE is to document the API of all functions using Doxygen.
 
-This is more of a continous task. For every file touched some documentation can be updated.
+This is more of a continuous task. For every file touched some documentation can be updated.
 
 ### Code reformatting
 
@@ -136,7 +140,7 @@ As the project goes on in rewriting, more and more trivial and not-so-trivial bu
 Those will be fixed asap when they are discovered. There can be platforms developers don't have
 access to, that might delay things. But the urgency will be based on severity.
 * Compilation error/warnings. Code should always compile.
-* Crashes. Segafults and similar memory crashes. They can be hard to recreate though.
+* Crashes. Segfaults and similar memory crashes. They can be hard to recreate though.
 * Other annoyances.
 
 ## Building (after CMake transition)
@@ -227,11 +231,32 @@ To create another preset, check out the directory`cmake/preset/` and add the new
 
 Gerbv has been built and tested on
 
-* Debian 10 (amd64)
-* Fedora 38 (amd64)
+* Debian 13 (amd64)
+* Fedora 43 (amd64)
 * Ubuntu 22.04 (amd64)
 * Windows 10 (amd64 cross compiled from Fedora as well as native x86/amd64 using MSYS2)
 
+### Fedora 43 upgrade
+
+There is a build for both Fedora 43 and for Windows using Fedora 43 (previously 38). Both builds
+suffer from missing DXF support libraries. Fedora have another DXF library available, but that
+requires porting work and support for two different DXF libs. Of course neither Debian nor
+Ubuntu have that library available.
+
+### Why not Ubuntu 24.04?
+
+There is a problem switching to Ubuntu 24.04, which should be the better choice. The Docker image
+for Ubuntu 24.04 defines a user with UID/GID 1000, the toolchain used to do the cross compilation
+(see https://github.com/ooxi/mini-cross) tries to define a new user with same UID/GID and thus fails.
+
+Using the mini-cross builder is a problem in itself, but that issue is for another day.
+
+The problem might only be when running the application locally, but it is hard to develop and test
+without being able to run locally. When installing Ubuntu, the first user created is always UID/GID
+1000. 
+
+This problem have been deferred at the moment, running on Ubuntu 22.04 should be good enough for the
+time being.
 
 ## Information for developers
 

@@ -1,24 +1,22 @@
 ---
-base: fedora:43
+base: debian:trixie
 install:
- - mingw64-gcc
- - mingw64-gcc-c++
+ - gcc
  - cmake
  - ninja-build
 
  # Buildsystem dependencies
- - gettext-devel
- - pkgconf
+ - pkg-config
 
  # Runtime dependencies
- - mingw64-cairo-static
- - mingw64-gtk2-static
+ - libdxflib-dev
+ - libgtk2.0-dev
+ - libcairo2-dev
 
  # Test dependencies
- - ImageMagick
+ - imagemagick
 
  # Packaging dependencies
  - git
- - zip
 ---
 
