@@ -212,7 +212,7 @@ cmake --build --preset mingw-w64-gcc
 
 To create another cross compilation target, check the directory `cmake/toolchains/`.
 
-To create another preset, check out the directory`cmake/preset/` and add the new preset file as an include in `CMakePreset.json`.
+To create another preset, check out the directory `cmake/preset/` and add the new preset file as an include in `CMakePreset.json`.
 
 ## Applied patches from SourceForge
 

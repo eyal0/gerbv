@@ -28,7 +28,7 @@ function(get_git_version var)
           set(GIT_VERSION "v0.0.0")
       else()
           string(STRIP ${GIT_VERSION} GIT_VERSION)
-          string(REGEX REPLACE "-[0-9]+-g" "-" GIT_VERSION ${GIT_VERSION})
+        #   string(REGEX REPLACE "-[0-9]+-g" "-" GIT_VERSION ${GIT_VERSION})
       endif()
       # Work out if the repository is dirty
       execute_process(COMMAND ${GIT_EXECUTABLE} update-index -q --refresh

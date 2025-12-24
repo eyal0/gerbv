@@ -46,7 +46,8 @@ install(TARGETS gerbv
 
 add_executable(gerbv-app)
 set_target_properties(gerbv-app PROPERTIES
-                     OUTPUT_NAME gerbv)
+                     OUTPUT_NAME gerbv
+                     PUBLIC_HEADER init.scm)
 target_sources(gerbv-app PRIVATE
                 attribute.c attribute.h
                 callbacks.c callbacks.h
@@ -65,7 +66,9 @@ target_sources(gerbv-app PRIVATE
 target_compile_definitions(gerbv-app PRIVATE $<$<BOOL:${DEBUG_PRINTOUT}>:DEBUG=1>)
 target_link_libraries(gerbv-app PRIVATE gerbv compilation-flags config generated)
 
-install(TARGETS gerbv-app)
+install(TARGETS gerbv-app
+        PUBLIC_HEADER
+            DESTINATION ${BACKEND_DIR})
 
 set(prefix ${CMAKE_INSTALL_PREFIX})
 set(exec_prefix "\$\{prefix\}")
