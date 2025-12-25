@@ -2,4 +2,4 @@
 
 set -e
 
-.mc/package-linux.sh 'Debian 13'
+.mc/package-linux.sh 'Debian 13' deb

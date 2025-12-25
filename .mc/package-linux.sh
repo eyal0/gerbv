@@ -1,40 +1,40 @@
 #!/bin/bash
 #
-# Builds an archive containing a gerbv binary distribution for Linux based
+# Builds a package containing a gerbv binary distribution for Linux based
 # systems
 #
 # @param $1 System name e.g. 'Fedora 43'
+# @param $2 Package type: 'deb' or 'rpm'
 #
 # @warning Expects working directory to be set to project root
 
 
 # Validate arguments
 RELEASE_OS="${1}"
+PACKAGE_TYPE="${2}"
 
-if [ "${RELEASE_OS}" == "" ]; then
-	(>&2 echo "Usage: package-linux.sh <release-os>")
+if [ "${RELEASE_OS}" == "" ] || [ "${PACKAGE_TYPE}" == "" ]; then
+	(>&2 echo "Usage: package-linux.sh <release-os> <package-type>")
+	(>&2 echo "  release-os: System name (e.g. 'Debian 13', 'Fedora 43')")
+	(>&2 echo "  package-type: 'deb' or 'rpm'")
+	exit 1
+fi
+
+if [ "${PACKAGE_TYPE}" != "deb" ] && [ "${PACKAGE_TYPE}" != "rpm" ]; then
+	(>&2 echo "Error: package-type must be 'deb' or 'rpm'")
 	exit 1
 fi
 
 
 # Validate environment
-CAT=`command -v cat`
-CHMOD=`command -v chmod`
+CPACK=`command -v cpack`
 CP=`command -v cp`
 DATE=`command -v date`
-FIND=`command -v find`
 GIT=`command -v git`
-GZIP=`command -v gzip`
-MKTEMP=`command -v mktemp`
-TAR=`command -v tar`
+MKDIR=`command -v mkdir`
 
-if [ ! -x "${CAT}" ]; then
-	(>&2 echo "\`cat' missing")
-	exit 1
-fi
-
-if [ ! -x "${CHMOD}" ]; then
-	(>&2 echo "\`chmod' missing")
+if [ ! -x "${CPACK}" ]; then
+	(>&2 echo "\`cpack' missing - ensure CMake is installed")
 	exit 1
 fi
 
@@ -48,28 +48,13 @@ if [ ! -x "${DATE}" ]; then
 	exit 1
 fi
 
-if [ ! -x "${FIND}" ]; then
-	(>&2 echo "\`find' missing")
-	exit 1
-fi
-
 if [ ! -x "${GIT}" ]; then
 	(>&2 echo "\`git' missing")
 	exit 1
 fi
 
-if [ ! -x "${GZIP}" ]; then
-	(>&2 echo "\`gzip' missing")
-	exit 1
-fi
-
-if [ ! -x "${MKTEMP}" ]; then
-	(>&2 echo "\`mktemp' missing")
-	exit 1
-fi
-
-if [ ! -x "${TAR}" ]; then
-	(>&2 echo "\`tar' missing")
+if [ ! -x "${MKDIR}" ]; then
+	(>&2 echo "\`mkdir' missing")
 	exit 1
 fi
 
@@ -82,32 +67,45 @@ RELEASE_COMMIT_SHORT="${RELEASE_COMMIT:0:6}"
 RELEASE_DATE=`"${DATE}" --rfc-3339=date`
 
 
-# Copy files to be released into temporary directory
+# Build package using CPack
+echo "Building ${PACKAGE_TYPE} package with cpack..."
+"${CPACK}" --preset "${PACKAGE_TYPE}-opt"
+
+if [ $? -ne 0 ]; then
+	(>&2 echo "Error: cpack failed")
+	exit 1
+fi
+
+
+# Copy package to website directory
 WEBSITE_DIRECTORY='gerbv.github.io/ci'
-TEMPORARY_DIRECTORY=`"${MKTEMP}" --directory`
+"${MKDIR}" -p "${WEBSITE_DIRECTORY}"
 
-"${CP}" 'COPYING' "${TEMPORARY_DIRECTORY}"
-"${CP}" 'src/init.scm' "${TEMPORARY_DIRECTORY}"
-"${CP}" 'build/src/Debug/gerbv' "${TEMPORARY_DIRECTORY}"
-"${FIND}" 'build/src/Debug' -name 'libgerbv.so*' -exec "${CP}" {} "${TEMPORARY_DIRECTORY}" \;
+# Find the generated package file in _packages/
+if [ "${PACKAGE_TYPE}" == "deb" ]; then
+	PACKAGE_FILE=`ls -t _packages/gerbv_*.deb | head -1`
+	PACKAGE_EXTENSION="deb"
+elif [ "${PACKAGE_TYPE}" == "rpm" ]; then
+	PACKAGE_FILE=`ls -t _packages/gerbv-*.rpm | head -1`
+	PACKAGE_EXTENSION="rpm"
+fi
 
-"${CAT}" <<EOT >> "${TEMPORARY_DIRECTORY}/gerbv.sh"
-#!/bin/bash
+if [ ! -f "${PACKAGE_FILE}" ]; then
+	(>&2 echo "Error: Package file not found in _packages/")
+	exit 1
+fi
 
-DIRECTORY=\`dirname "\$0"\`
-LD_LIBRARY_PATH="\${LD_LIBRARY_PATH}:\${DIRECTORY}" "\${DIRECTORY}/gerbv" "\$@"
-EOT
+PACKAGE_BASENAME=`basename "${PACKAGE_FILE}"`
+RELEASE_FILENAME="gerbv_${RELEASE_DATE}_${RELEASE_COMMIT_SHORT}_(${RELEASE_OS}).${PACKAGE_EXTENSION}"
 
-"${CHMOD}" +x "${TEMPORARY_DIRECTORY}/gerbv.sh"
+echo "Copying ${PACKAGE_BASENAME} to ${WEBSITE_DIRECTORY}/${RELEASE_FILENAME}"
+"${CP}" "${PACKAGE_FILE}" "${WEBSITE_DIRECTORY}/${RELEASE_FILENAME}"
 
-
-# Create archive and auxiliary files
-RELEASE_FILENAME="gerbv_${RELEASE_DATE}_${RELEASE_COMMIT_SHORT}_(${RELEASE_OS}).tar.gz"
-
-"${TAR}" --directory="${TEMPORARY_DIRECTORY}" -czf "${WEBSITE_DIRECTORY}/${RELEASE_FILENAME}" '.'
-
+# Create auxiliary files
 echo "${RELEASE_COMMIT}"	> "${WEBSITE_DIRECTORY}/${RELEASE_OS}.RELEASE_COMMIT"
 echo "${RELEASE_COMMIT_SHORT}"	> "${WEBSITE_DIRECTORY}/${RELEASE_OS}.RELEASE_COMMIT_SHORT"
 echo "${RELEASE_DATE}"		> "${WEBSITE_DIRECTORY}/${RELEASE_OS}.RELEASE_DATE"
 echo "${RELEASE_FILENAME}"	> "${WEBSITE_DIRECTORY}/${RELEASE_OS}.RELEASE_FILENAME"
+
+echo "Package created successfully: ${WEBSITE_DIRECTORY}/${RELEASE_FILENAME}"
 
