@@ -2,5 +2,5 @@
 
 set -e
 
-.mc/package-linux.sh 'Fedora 43'
+.mc/package-linux.sh 'Fedora 43' rpm
 

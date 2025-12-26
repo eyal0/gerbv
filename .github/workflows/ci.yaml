@@ -108,7 +108,7 @@ jobs:
 
     - name: Rebuild Windows amd64
       if: "!matrix.code_coverage"
-      run: npx --package mini-cross@0.15.2 mc --no-tty windows_amd64 .mc/rebuild.sh
+      run: npx --package mini-cross@0.15.2 mc --no-tty windows_amd64 .mc/rebuild-win.sh
 
     - name: Upload executable artifacts
       if: "!matrix.code_coverage"

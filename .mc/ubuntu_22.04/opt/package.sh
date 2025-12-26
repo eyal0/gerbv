@@ -2,5 +2,5 @@
 
 set -e
 
-.mc/package-linux.sh 'Ubuntu 22.04'
+.mc/package-linux.sh 'Ubuntu 22.04' deb
 

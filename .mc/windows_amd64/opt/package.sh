@@ -9,7 +9,7 @@
 RELEASE_OS="Windows amd64"
 
 if [ "${RELEASE_OS}" == "" ]; then
-	(>&2 echo "Usage: package-linux.sh <release-os>")
+	(>&2 echo "Usage: package.sh")
 	exit 1
 fi
 

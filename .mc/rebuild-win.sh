@@ -9,6 +9,6 @@ set -e
 
 rm -rf build
 /opt/configure.sh
-cmake --build --preset linux-gnu-gcc-release
+cmake --build --preset mingw-w64-gcc
 /opt/package.sh
 
