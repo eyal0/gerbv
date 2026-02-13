@@ -774,7 +774,7 @@ interface_create_gui (int req_width, int req_height)
 		menu_view_render_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (render_hq));
 		gtk_container_add (GTK_CONTAINER (menuitem_view_render_menu), render_hq);
 
-		screen.win.menu_view_render_group = malloc(4*sizeof(GtkWidget *));
+		screen.win.menu_view_render_group = malloc(GERBV_RENDER_TYPE_MAX*sizeof(GtkWidget *));
 		if(screen.win.menu_view_render_group == NULL)
 			GERB_FATAL_ERROR("malloc for rendering type synchronization failed in %s()", __FUNCTION__);
 
