@@ -359,6 +359,11 @@ typedef enum {GERBV_RENDER_TYPE_GDK, /*!< render using normal GDK drawing functi
 		GERBV_RENDER_TYPE_MAX /*!< End-of-enum indicator */
 } gerbv_render_types_t;
 
+static inline gboolean
+uses_gdk(gerbv_render_types_t t) {
+    return t <= GERBV_RENDER_TYPE_GDK_XOR;
+}
+
 /* 
  * The following typedef's are taken directly from src/hid.h in the
  * pcb project.  The names are kept the same to make it easier to
