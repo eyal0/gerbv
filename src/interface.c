@@ -218,7 +218,7 @@ interface_create_gui (int req_width, int req_height)
 	GtkWidget *backgroundColor;
 	GtkWidget *menuitem_view_render, *menuitem_view_render_menu;
 	GSList *menu_view_render_group;
-	GtkWidget *render_fast, *render_fast_xor, *render_normal, *render_hq;
+	GtkWidget *render_fast, *render_fast_xor, *render_fast_or, *render_normal, *render_hq;
 	GtkWidget *menuitem_view_unit, *menuitem_view_unit_menu;
 	GSList *menu_view_unit_group;
 	GtkWidget *unit_mil, *unit_mm, *unit_in;
@@ -766,6 +766,10 @@ interface_create_gui (int req_width, int req_height)
 		menu_view_render_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (render_fast_xor));
 		gtk_container_add (GTK_CONTAINER (menuitem_view_render_menu), render_fast_xor);
 
+		render_fast_or = gtk_radio_menu_item_new_with_mnemonic (menu_view_render_group, _("Fast (_OR)"));
+		menu_view_render_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (render_fast_or));
+		gtk_container_add (GTK_CONTAINER (menuitem_view_render_menu), render_fast_or);
+
 		render_normal = gtk_radio_menu_item_new_with_mnemonic (menu_view_render_group, _("_Normal"));
 		menu_view_render_group = gtk_radio_menu_item_get_group (GTK_RADIO_MENU_ITEM (render_normal));
 		gtk_container_add (GTK_CONTAINER (menuitem_view_render_menu), render_normal);
@@ -780,6 +784,7 @@ interface_create_gui (int req_width, int req_height)
 
 		screen.win.menu_view_render_group[GERBV_RENDER_TYPE_GDK] = GTK_CHECK_MENU_ITEM(render_fast);
 		screen.win.menu_view_render_group[GERBV_RENDER_TYPE_GDK_XOR] = GTK_CHECK_MENU_ITEM(render_fast_xor);
+		screen.win.menu_view_render_group[GERBV_RENDER_TYPE_GDK_OR] = GTK_CHECK_MENU_ITEM(render_fast_or);
 		screen.win.menu_view_render_group[GERBV_RENDER_TYPE_CAIRO_NORMAL] = GTK_CHECK_MENU_ITEM(render_normal);
 		screen.win.menu_view_render_group[GERBV_RENDER_TYPE_CAIRO_HIGH_QUALITY] = GTK_CHECK_MENU_ITEM(render_hq);
 	}
@@ -1147,6 +1152,7 @@ interface_create_gui (int req_width, int req_height)
 
 	gtk_combo_box_append_text (GTK_COMBO_BOX (render_combobox), _("Fast"));
 	gtk_combo_box_append_text (GTK_COMBO_BOX (render_combobox), _("Fast, with XOR"));
+	gtk_combo_box_append_text (GTK_COMBO_BOX (render_combobox), _("Fast, with OR"));
 	gtk_combo_box_append_text (GTK_COMBO_BOX (render_combobox), _("Normal"));
 	gtk_combo_box_append_text (GTK_COMBO_BOX (render_combobox), _("High quality"));
 
@@ -1834,6 +1840,9 @@ interface_create_gui (int req_width, int req_height)
 	g_signal_connect ((gpointer) render_fast_xor, "activate",
 	                  G_CALLBACK (callbacks_viewmenu_rendertype_changed),
 	                  GINT_TO_POINTER(GERBV_RENDER_TYPE_GDK_XOR));
+	g_signal_connect ((gpointer) render_fast_or, "activate",
+	                  G_CALLBACK (callbacks_viewmenu_rendertype_changed),
+	                  GINT_TO_POINTER(GERBV_RENDER_TYPE_GDK_OR));
 	g_signal_connect ((gpointer) render_normal, "activate",
 	                  G_CALLBACK (callbacks_viewmenu_rendertype_changed),
 	                  GINT_TO_POINTER(GERBV_RENDER_TYPE_CAIRO_NORMAL));
