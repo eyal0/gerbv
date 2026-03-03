@@ -2576,8 +2576,8 @@ calc_cirseg_bbox(const gerbv_cirseg_t *cirseg,
 				apert_size_x, apert_size_x,
 				apert_size_y, apert_size_y);
 
-	/* Middle arc points */
-	for (step_pi_2 = (ang1/M_PI_2 + 1)*M_PI_2;
+	/* Middle arc points at each 90-degree axis crossing */
+	for (step_pi_2 = (floor(ang1/M_PI_2) + 1)*M_PI_2;
 				step_pi_2 < MIN(ang2, ang1 + 2*M_PI);
 				step_pi_2 += M_PI_2) {
 		x = cirseg->cp_x + cirseg->width*cos(step_pi_2)/2;
